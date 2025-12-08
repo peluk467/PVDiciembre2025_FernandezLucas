@@ -161,3 +161,133 @@
     color: #555;
     margin-bottom: 1.5rem;
 }
+
+/* --- 4. ESTILOS DE ESPECIALIDADES DINÁMICAS (NUEVO) --- */
+
+.specialties-header {
+    text-align: center;
+    margin: 2rem 0 3rem 0;
+}
+
+.specialties-header h2 {
+    color: var(--secondary);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.specialties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjeta Base */
+.spec-card-dynamic {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow: hidden; /* CLAVE: Oculta lo que se salga del borde */
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Efecto al pasar el mouse por la tarjeta completa */
+.spec-card-dynamic:hover,
+.spec-card-dynamic.active {
+    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2); /* Sombra azulada */
+    transform: translateY(-5px);
+    border-color: #3498db;
+}
+
+/* Encabezado de la tarjeta */
+.spec-card-header {
+    padding: 1.5rem;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    position: relative;
+}
+
+.spec-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.spec-card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #2c3e50;
+    flex: 1; /* Ocupa el espacio restante */
+}
+
+/* Flechita giratoria */
+.arrow-indicator {
+    color: #bbb;
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.spec-card-dynamic.active .arrow-indicator {
+    transform: rotate(180deg);
+    color: #3498db;
+}
+
+/* --- LA ANIMACIÓN DE DESPLIEGUE --- */
+.spec-body {
+    max-height: 0; /* Por defecto altura 0 (oculto) */
+    opacity: 0;
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease;
+    background-color: #f8f9fa; /* Fondo gris claro para la lista */
+}
+
+.spec-card-dynamic.active .spec-body {
+    max-height: 500px; /* Altura máxima suficiente para que quepan los médicos */
+    opacity: 1;
+}
+
+.spec-body-content {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+}
+
+.staff-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #95a5a6;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+/* Lista de médicos limpia */
+.medico-list-public {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.medico-item {
+    padding: 8px 0;
+    border-bottom: 1px dashed #e0e0e0;
+    color: #555;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.medico-item:last-child {
+    border-bottom: none;
+}
+
+.medico-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.medico-location {
+    font-size: 0.8rem;
+    color: #888;
+}

@@ -18,7 +18,6 @@ export default function Navbar() {
       {/* Logo + Título del Hospital */}
       <Link to="/" className="nav-brand">
         <img src="/Logopage.png" alt="Logo Hospital" className="navbar-logo-img" />
-        <h1>HOSPITAL FERNÁNDEZ</h1>
       </Link>
 
       <div className="nav-user-section">

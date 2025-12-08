@@ -19,8 +19,8 @@ export default function Home() {
              
             {/* BOTÓN INTELIGENTE */}
             {/* Si existe 'user', va al dashboard. Si no, va al login. */}
-            <Link to={user ? "/dashboard" : "/login"} className="btn-hero-cta">
-              {user ? "Ir a Mis Turnos" : "Portal del Paciente"}
+            <Link to={user ? "/dashboard" : "/login"} className="btn-hero-cta"> 
+              {user ? "Ir a Mis Turnos" : "Ir a Mi Cuenta"} 
             </Link>
           </div>
         </div>
