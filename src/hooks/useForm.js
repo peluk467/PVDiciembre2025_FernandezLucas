@@ -1,12 +1,22 @@
-// src/hooks/useForm.js
 import { useState } from 'react';
 
 export const useForm = (initialState = {}) => {
     const [values, setValues] = useState(initialState);
 
     const handleChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        
+        // Esta forma de actualizar asegura que no se pierdan caracteres al escribir rápido
+        setValues((prevValues) => ({
+            ...prevValues,
+            [name]: value
+        }));
     };
 
-    return [values, handleChange];
+    // Agregamos una función para resetear el formulario si hace falta
+    const reset = () => {
+        setValues(initialState);
+    };
+
+    return [values, handleChange, reset];
 };

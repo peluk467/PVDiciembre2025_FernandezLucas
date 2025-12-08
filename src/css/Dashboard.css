@@ -1,0 +1,65 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Listas y Slots */
+.doctor-list {
+  list-style: none;
+  padding: 0;
+}
+
+.doctor-list li {
+  margin-bottom: 0.5rem;
+}
+
+.doctor-btn {
+  width: 100%;
+  text-align: left;
+  background-color: #ecf0f1;
+  color: var(--secondary);
+  padding: 0.8rem;
+  border-radius: 4px;
+}
+
+.doctor-btn:hover {
+  background-color: #bdc3c7;
+}
+
+.slots-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.slot-btn {
+  background-color: var(--primary);
+  color: white;
+  flex: 1 1 auto;
+}
+
+/* Ticket PDF View */
+.ticket-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.ticket-card {
+  background: white;
+  padding: 2rem;
+  border: 2px dashed var(--secondary);
+  border-radius: 8px;
+  text-align: center;
+  width: 350px;
+}

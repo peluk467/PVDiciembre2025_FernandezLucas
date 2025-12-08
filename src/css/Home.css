@@ -1,0 +1,163 @@
+/* src/css/Home.css */
+
+.home-container {
+    background-color: #f8f9fa; /* Fondo gris muy claro para toda la página */
+}
+
+/* --- 1. HERO BANNER --- */
+.hero-banner {
+    position: relative;
+    height: 500px; /* Altura fija para la portada */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center; /* Centrar verticalmente el contenido */
+}
+
+/* Capa oscura sobre la imagen para que el texto se lea bien */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Oscurece la imagen al 50% */
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    max-width: 1000px;
+    margin: 0 auto; /* Centrado horizontal */
+    padding: 0 2rem;
+    color: white;
+    text-align: left; /* Alineado a la izquierda como la referencia */
+}
+
+.hospital-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    line-height: 1.2;
+}
+
+.hospital-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    max-width: 600px;
+}
+
+.btn-hero-cta {
+    display: inline-block;
+    background-color: var(--primary); /* Usa el azul de tu global.css */
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-hero-cta:hover {
+    background-color: #2980b9; /* Un azul un poco más oscuro */
+}
+
+
+/* --- 2. BARRA DE ACCESO RÁPIDO --- */
+.quick-access-bar {
+    display: grid;
+    /* Crea 4 columnas iguales en escritorio, se adapta en móviles */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    /* Movemos la barra hacia arriba para que se superponga un poco a la imagen */
+    margin-top: -50px; 
+    position: relative;
+    z-index: 10; /* Asegura que quede por encima de la imagen */
+    margin-bottom: 4rem;
+    padding-left: 1rem !important; /* Forzar padding en el container */
+    padding-right: 1rem !important;
+}
+
+.qa-item {
+    background: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: var(--secondary);
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08); /* Sombra suave */
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-bottom: 3px solid transparent; /* Borde inferior invisible por defecto */
+}
+
+.qa-item:hover {
+    transform: translateY(-5px); /* Se levanta un poco */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    border-bottom: 3px solid var(--primary); /* Aparece una línea azul abajo */
+    color: var(--primary);
+}
+
+.qa-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.qa-item h3 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    font-weight: 700;
+}
+
+.qa-item p {
+    font-size: 0.9rem;
+    color: #777;
+    margin: 0;
+}
+
+/* Estilo para los items que no tienen link funcional todavía */
+.qa-item.inactive {
+    cursor: default;
+}
+.qa-item.inactive:hover {
+    transform: none;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-bottom: 3px solid transparent;
+    color: var(--secondary);
+}
+
+
+/* --- 3. SECCIÓN INSTITUCIONAL --- */
+.institutional-section {
+    text-align: center;
+    padding: 2rem 1rem 5rem 1rem !important;
+    max-width: 800px !important; /* Texto más angosto para leer mejor */
+}
+
+.institutional-section h2 {
+    color: var(--secondary);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+/* Pequeña línea decorativa debajo del título */
+.institutional-section h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary);
+    margin: 1rem auto 0;
+}
+
+.institutional-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1.5rem;
+}

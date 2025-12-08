@@ -1,0 +1,82 @@
+/* src/css/Navbar.css */
+
+.navbar {
+  /* --- LO NUEVO: HACER QUE FLOTE --- */
+  position: absolute; /* Saca la barra del flujo normal para que flote */
+  top: 0;
+  left: 0;
+  width: 100%;       /* Que ocupe todo el ancho */
+  z-index: 1000;     /* Asegura que esté por encima de la imagen */
+  
+  /* Transparencia */
+  background-color: transparent;
+  box-shadow: none;
+  
+  /* Alineación */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-sizing: border-box; /* Evita que el padding rompa el ancho */
+}
+
+/* --- CAMBIAR TEXTOS A BLANCO --- */
+/* (Necesario para que se lean sobre la foto oscura del hospital) */
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  color: white; /* Texto blanco */
+}
+
+.nav-brand h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* Sombra para leer mejor */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white; /* Links en blanco */
+  font-weight: bold;
+  font-size: 1rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  transition: opacity 0.3s;
+  margin-left: 1rem;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+  color: #ecf0f1;
+}
+
+/* Ajustes del resto de elementos */
+.navbar-logo-img {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); /* Sombra al logo también */
+}
+
+.nav-user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-username {
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.btn-logout {
+  padding: 0.5rem 1rem;
+  background-color: var(--accent); /* Mantiene el rojo/naranja */
+  color: white;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
