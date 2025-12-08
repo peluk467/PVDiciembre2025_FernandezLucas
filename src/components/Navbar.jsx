@@ -24,10 +24,14 @@ export default function Navbar() {
       <div className="nav-user-section">
           <Link to="/" className="nav-link">Inicio</Link>
           <Link to="/especialidades" className="nav-link">Especialidades</Link>
+          
+          {/* --- NUEVO APARTADO DE CONTACTO --- */}
+          <Link to="/contacto" className="nav-link">Contacto</Link>
+          {/* ---------------------------------- */}
 
           {user ? (
             <>
-              {/* CAMBIO CLAVE: Texto dinámico según si es Médico o Paciente */}
+              {/* Texto dinámico según si es Médico o Paciente */}
               <Link to="/dashboard" className="nav-link">
                 {user.role === 'medico' ? 'Turnos Vigentes' : 'Mis Turnos'}
               </Link>

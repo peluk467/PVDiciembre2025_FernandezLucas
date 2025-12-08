@@ -1,0 +1,116 @@
+/* src/css/Contacto.css */
+
+.contact-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.contact-header {
+    margin-bottom: 3rem;
+}
+
+.contact-icon-top {
+    font-size: 3rem;
+    color: var(--primary); /* Usa el azul de tu global.css */
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.contact-title {
+    color: #4facfe; /* Azul celestito similar a la foto */
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-subtitle {
+    color: #666;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Formulario */
+.contact-form {
+    text-align: left;
+}
+
+.form-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #777;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 3px;
+}
+
+.form-input, .form-select, .form-textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #4facfe;
+    background-color: white;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.btn-send {
+    background-color: #4facfe; /* Azul de la imagen */
+    color: white;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+}
+
+.btn-send:hover {
+    background-color: #0072ff;
+}
+
+/* Responsive para celular */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}

@@ -1,19 +1,15 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { DataProvider } from './context/DataContext';
-
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
-
-// Importamos las páginas nuevas
 import Home from './pages/Home';
 import Especialidades from './pages/Especialidades';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-
 import './css/global.css';
-
+import Contacto from './pages/Contacto'; // <--- IMPORTAR
 function App() {
   return (
     <AuthProvider>
@@ -22,11 +18,12 @@ function App() {
             <Navbar />
             
             <Routes>
-              {/* Ruta principal ahora es Home */}
               <Route path="/" element={<Home />} />
-              
-              {/* Nueva ruta pública */}
               <Route path="/especialidades" element={<Especialidades />} />
+              
+              {/* --- NUEVA RUTA AQUÍ --- */}
+              <Route path="/contacto" element={<Contacto />} />
+              {/* ----------------------- */}
 
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -40,7 +37,6 @@ function App() {
                 } 
               />
               
-              {/* Si ponen cualquier cosa, vuelve al inicio */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </div>
