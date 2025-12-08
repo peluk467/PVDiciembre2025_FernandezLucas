@@ -1,5 +1,4 @@
-/* src/css/Contacto.css */
-
+/* Contenedor principal: Caja blanca centrada con sombra */
 .contact-container {
     max-width: 800px;
     margin: 3rem auto;
@@ -10,19 +9,22 @@
     text-align: center;
 }
 
+/* Espaciado inferior del encabezado */
 .contact-header {
     margin-bottom: 3rem;
 }
 
+/* Icono superior (estetoscopio): Tamaño y color principal */
 .contact-icon-top {
     font-size: 3rem;
-    color: var(--primary); /* Usa el azul de tu global.css */
+    color: var(--primary); 
     margin-bottom: 1rem;
     display: block;
 }
 
+/* Título principal: Estilo llamativo en azul */
 .contact-title {
-    color: #4facfe; /* Azul celestito similar a la foto */
+    color: #4facfe; 
     font-size: 2.5rem;
     font-weight: 700;
     margin: 0;
@@ -30,6 +32,7 @@
     letter-spacing: 1px;
 }
 
+/* Subtítulo: Texto gris explicativo */
 .contact-subtitle {
     color: #666;
     margin-top: 1rem;
@@ -37,23 +40,26 @@
     line-height: 1.5;
 }
 
-/* Formulario */
+/* Alineación del formulario a la izquierda */
 .contact-form {
     text-align: left;
 }
 
+/* Fila del formulario: Para poner dos inputs lado a lado */
 .form-row {
     display: flex;
     gap: 2rem;
     margin-bottom: 1.5rem;
 }
 
+/* Columna del formulario: Agrupa label e input verticalmente */
 .form-col {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
+/* Etiquetas de los inputs: Texto en negrita y mayúsculas */
 .form-label {
     font-size: 0.8rem;
     font-weight: bold;
@@ -62,11 +68,13 @@
     text-transform: uppercase;
 }
 
+/* Asterisco rojo para campos obligatorios */
 .required {
     color: #e74c3c;
     margin-left: 3px;
 }
 
+/* Estilos generales para todos los campos de entrada */
 .form-input, .form-select, .form-textarea {
     padding: 12px;
     border: 1px solid #ddd;
@@ -77,19 +85,22 @@
     transition: border-color 0.3s;
 }
 
+/* Efecto al hacer clic en un campo (borde azul) */
 .form-input:focus, .form-select:focus, .form-textarea:focus {
     outline: none;
     border-color: #4facfe;
     background-color: white;
 }
 
+/* Configuración específica para el área de mensaje */
 .form-textarea {
     resize: vertical;
     min-height: 150px;
 }
 
+/* Botón de enviar mensaje: Azul ancho */
 .btn-send {
-    background-color: #4facfe; /* Azul de la imagen */
+    background-color: #4facfe; 
     color: white;
     width: 100%;
     padding: 1rem;
@@ -103,11 +114,12 @@
     margin-top: 1rem;
 }
 
+/* Hover del botón de enviar */
 .btn-send:hover {
     background-color: #0072ff;
 }
 
-/* Responsive para celular */
+/* Responsive: Apila las filas en vertical para celulares */
 @media (max-width: 600px) {
     .form-row {
         flex-direction: column;
@@ -115,13 +127,14 @@
     }
 }
 
+/* Botón flotante de WhatsApp: Posición fija y circular */
 .btn-whatsapp {
     position: fixed;
     bottom: 30px;
     right: 30px;
     width: 60px;
     height: 60px;
-    background-color: #25d366; /* Verde oficial */
+    background-color: #25d366; 
     color: white;
     border-radius: 50%;
     display: flex;
@@ -129,25 +142,28 @@
     align-items: center;
     text-decoration: none;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 3000; /* Para que flote sobre todo */
+    z-index: 3000; 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Hover del botón de WhatsApp: Efecto de crecimiento */
 .btn-whatsapp:hover {
-    transform: scale(1.1); /* Crece un poquito al pasar el mouse */
+    transform: scale(1.1); 
     box-shadow: 0 6px 14px rgba(0,0,0,0.4);
     background-color: #20ba5a;
 }
 
+/* Tamaño del icono SVG de WhatsApp */
 .whatsapp-icon {
     width: 35px;
     height: 35px;
-    fill: white; /* Color del icono SVG */
+    fill: white; 
 }
 
+/* Sección azul inferior: Contenedor de información y mapa */
 .contact-info-section {
     margin-top: 3rem;
-    background-color: #4facfe; /* Mismo azul que el botón/tema */
+    background-color: #4facfe; 
     color: white;
     border-radius: 8px;
     padding: 2rem;
@@ -155,6 +171,7 @@
     box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
 }
 
+/* Título de la sección de información */
 .info-title {
     margin-top: 0;
     margin-bottom: 2rem;
@@ -165,12 +182,14 @@
     padding-bottom: 1rem;
 }
 
+/* Grilla para dividir Texto (Izq) y Mapa (Der) */
 .info-grid {
     display: flex;
     gap: 2rem;
     align-items: stretch;
 }
 
+/* Columna de detalles de contacto */
 .info-details {
     flex: 1;
     display: flex;
@@ -179,12 +198,14 @@
     gap: 1.5rem;
 }
 
+/* Ítem individual de información (Icono + Texto) */
 .info-item {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
 }
 
+/* Iconos circulares de la info (Ubicación, Teléfono) */
 .info-icon {
     font-size: 1.5rem;
     background: rgba(255,255,255,0.2);
@@ -197,12 +218,13 @@
     flex-shrink: 0;
 }
 
+/* Ajuste de párrafos dentro de la info */
 .info-item p {
     margin: 0;
     line-height: 1.5;
 }
 
-/* El Mapa */
+/* Contenedor del Mapa (Iframe) */
 .map-container {
     flex: 1;
     min-height: 250px;
@@ -211,7 +233,7 @@
     border: 4px solid rgba(255,255,255,0.3);
 }
 
-/* Responsive para celulares: Mapa abajo del texto */
+/* Responsive del Mapa: Se ubica abajo en celulares */
 @media (max-width: 768px) {
     .info-grid {
         flex-direction: column;

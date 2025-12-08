@@ -1,40 +1,41 @@
-/* src/css/Home.css */
-
+/* CONTENEDOR PRINCIPAL HOME: Fondo base gris claro para la página de inicio */
 .home-container {
-    background-color: #f8f9fa; /* Fondo gris muy claro para toda la página */
+    background-color: #f8f9fa;
 }
 
-/* --- 1. HERO BANNER --- */
+/* PORTADA PRINCIPAL (HERO): Sección superior con imagen de fondo y altura fija */
 .hero-banner {
     position: relative;
-    height: 500px; /* Altura fija para la portada */
+    height: 500px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
-    align-items: center; /* Centrar verticalmente el contenido */
+    align-items: center;
 }
 
-/* Capa oscura sobre la imagen para que el texto se lea bien */
+/* CAPA OSCURA: Superposición semitransparente para mejorar la lectura del texto sobre la imagen */
 .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Oscurece la imagen al 50% */
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
 }
 
+/* CONTENIDO DEL HERO: Texto centrado y limitado en ancho */
 .hero-content {
     max-width: 1000px;
-    margin: 0 auto; /* Centrado horizontal */
+    margin: 0 auto;
     padding: 0 2rem;
     color: white;
-    text-align: center; /* Alineado al centro */
+    text-align: center;
 }
 
+/* TÍTULO PRINCIPAL: Tipografía grande con sombra para destacar el nombre del hospital */
 .hospital-title {
     text-align: center;
     font-size: 3.5rem;
@@ -44,6 +45,7 @@
     line-height: 1.2;
 }
 
+/* SUBTÍTULO HERO: Texto descriptivo debajo del título principal */
 .hospital-subtitle {
     text-align: center;
     font-size: 1.5rem;
@@ -52,9 +54,10 @@
     max-width: 600px;
 }
 
+/* BOTÓN DE ACCIÓN (CTA): Botón principal en la portada para acceso rápido */
 .btn-hero-cta {
     display: inline-block;
-    background-color: var(--primary); /* Usa el azul de tu global.css */
+    background-color: var(--primary);
     color: white;
     padding: 1rem 2rem;
     border-radius: 4px;
@@ -65,26 +68,25 @@
     transition: background-color 0.3s ease;
 }
 
+/* HOVER BOTÓN CTA: Oscurecimiento al pasar el mouse */
 .btn-hero-cta:hover {
-    background-color: #2980b9; /* Un azul un poco más oscuro */
+    background-color: #2980b9;
 }
 
-
-/* --- 2. BARRA DE ACCESO RÁPIDO --- */
+/* BARRA DE ACCESO RÁPIDO: Grilla de tarjetas que se superpone visualmente a la portada */
 .quick-access-bar {
     display: grid;
-    /* Crea 4 columnas iguales en escritorio, se adapta en móviles */
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
-    /* Movemos la barra hacia arriba para que se superponga un poco a la imagen */
     margin-top: -50px; 
     position: relative;
-    z-index: 10; /* Asegura que quede por encima de la imagen */
+    z-index: 10;
     margin-bottom: 4rem;
-    padding-left: 1rem !important; /* Forzar padding en el container */
+    padding-left: 1rem !important;
     padding-right: 1rem !important;
 }
 
+/* TARJETA DE ACCESO: Estilo base de los botones cuadrados con iconos */
 .qa-item {
     background: white;
     padding: 2rem 1.5rem;
@@ -92,18 +94,20 @@
     text-decoration: none;
     color: var(--secondary);
     border-radius: 8px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08); /* Sombra suave */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
     transition: transform 0.3s, box-shadow 0.3s;
-    border-bottom: 3px solid transparent; /* Borde inferior invisible por defecto */
+    border-bottom: 3px solid transparent;
 }
 
+/* HOVER TARJETA: Elevación y borde inferior de color al interactuar */
 .qa-item:hover {
-    transform: translateY(-5px); /* Se levanta un poco */
+    transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    border-bottom: 3px solid var(--primary); /* Aparece una línea azul abajo */
+    border-bottom: 3px solid var(--primary);
     color: var(--primary);
 }
 
+/* ESTILOS INTERNOS TARJETA: Tamaño de iconos y tipografía */
 .qa-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
@@ -121,7 +125,7 @@
     margin: 0;
 }
 
-/* Estilo para los items que no tienen link funcional todavía */
+/* ITEMS INACTIVOS: Estilo visual para botones deshabilitados o decorativos */
 .qa-item.inactive {
     cursor: default;
 }
@@ -132,14 +136,14 @@
     color: var(--secondary);
 }
 
-
-/* --- 3. SECCIÓN INSTITUCIONAL --- */
+/* SECCIÓN INSTITUCIONAL: Bloque de texto informativo centrado */
 .institutional-section {
     text-align: center;
     padding: 2rem 1rem 5rem 1rem !important;
-    max-width: 800px !important; /* Texto más angosto para leer mejor */
+    max-width: 800px !important;
 }
 
+/* TÍTULO INSTITUCIONAL: Encabezado de la sección de bienvenida */
 .institutional-section h2 {
     color: var(--secondary);
     font-size: 2.5rem;
@@ -147,7 +151,7 @@
     position: relative;
 }
 
-/* Pequeña línea decorativa debajo del título */
+/* LÍNEA DECORATIVA: Pequeña barra de color debajo del título */
 .institutional-section h2::after {
     content: "";
     display: block;
@@ -157,6 +161,7 @@
     margin: 1rem auto 0;
 }
 
+/* PÁRRAFOS INSTITUCIONALES: Ajuste de lectura y espaciado */
 .institutional-section p {
     font-size: 1.1rem;
     line-height: 1.8;
@@ -164,8 +169,7 @@
     margin-bottom: 1.5rem;
 }
 
-/* --- 4. ESTILOS DE ESPECIALIDADES DINÁMICAS (NUEVO) --- */
-
+/* ENCABEZADO ESPECIALIDADES: Título y descripción de la sección de médicos */
 .specialties-header {
     text-align: center;
     margin: 2rem 0 3rem 0;
@@ -177,33 +181,34 @@
     margin-bottom: 0.5rem;
 }
 
+/* GRILLA DE ESPECIALIDADES: Distribución responsiva de las tarjetas de áreas médicas */
 .specialties-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
-/* Tarjeta Base */
+/* TARJETA DE ESPECIALIDAD: Contenedor interactivo (acordeón) con bordes redondeados */
 .spec-card-dynamic {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    overflow: hidden; /* CLAVE: Oculta lo que se salga del borde */
+    overflow: hidden;
     transition: all 0.3s ease;
     border: 1px solid #eee;
     cursor: pointer;
     position: relative;
 }
 
-/* Efecto al pasar el mouse por la tarjeta completa */
+/* ESTADO ACTIVO/HOVER: Resaltado visual cuando se selecciona o señala la tarjeta */
 .spec-card-dynamic:hover,
 .spec-card-dynamic.active {
-    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2); /* Sombra azulada */
+    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
     transform: translateY(-5px);
     border-color: #3498db;
 }
 
-/* Encabezado de la tarjeta */
+/* CABECERA DE LA TARJETA: Parte visible siempre (Nombre especialidad + Icono) */
 .spec-card-header {
     padding: 1.5rem;
     background: white;
@@ -214,6 +219,7 @@
     position: relative;
 }
 
+/* ELEMENTOS CABECERA: Estilos para el icono y el nombre de la especialidad */
 .spec-icon {
     font-size: 1.5rem;
     margin-right: 10px;
@@ -223,10 +229,10 @@
     margin: 0;
     font-size: 1.2rem;
     color: #2c3e50;
-    flex: 1; /* Ocupa el espacio restante */
+    flex: 1;
 }
 
-/* Flechita giratoria */
+/* FLECHA INDICADORA: Icono que rota cuando la tarjeta está activa */
 .arrow-indicator {
     color: #bbb;
     transition: transform 0.3s ease;
@@ -238,23 +244,26 @@
     color: #3498db;
 }
 
-/* --- LA ANIMACIÓN DE DESPLIEGUE --- */
+/* CUERPO DESPLEGABLE: Contenedor oculto que se anima al abrirse (Efecto Acordeón) */
 .spec-body {
-    max-height: 0; /* Por defecto altura 0 (oculto) */
+    max-height: 0;
     opacity: 0;
     transition: max-height 0.5s ease-in-out, opacity 0.3s ease;
-    background-color: #f8f9fa; /* Fondo gris claro para la lista */
+    background-color: #f8f9fa;
 }
 
+/* CUERPO ACTIVO: Define la altura máxima para mostrar el contenido */
 .spec-card-dynamic.active .spec-body {
-    max-height: 500px; /* Altura máxima suficiente para que quepan los médicos */
+    max-height: 500px;
     opacity: 1;
 }
 
+/* CONTENIDO INTERNO: Espaciado para la lista de médicos */
 .spec-body-content {
     padding: 1rem 1.5rem 1.5rem 1.5rem;
 }
 
+/* ETIQUETA STAFF: Título pequeño sobre la lista de nombres */
 .staff-label {
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -264,13 +273,14 @@
     letter-spacing: 1px;
 }
 
-/* Lista de médicos limpia */
+/* LISTA DE MÉDICOS: Estilos base para la lista ul/li */
 .medico-list-public {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* ÍTEM DE MÉDICO: Fila individual con nombre y ubicación */
 .medico-item {
     padding: 8px 0;
     border-bottom: 1px dashed #e0e0e0;
@@ -284,6 +294,7 @@
     border-bottom: none;
 }
 
+/* DETALLES MÉDICO: Tipografía para nombre y ubicación */
 .medico-name {
     font-weight: 600;
     color: #333;
@@ -294,12 +305,14 @@
     color: #888;
 }
 
+/* CONTENEDOR BUSCADOR: Centra la barra de búsqueda en la pantalla */
 .search-wrapper {
     margin-top: 1.5rem;
     display: flex;
     justify-content: center;
 }
 
+/* INPUT DE BÚSQUEDA: Estilo redondeado y moderno para el campo de texto */
 .search-input {
     width: 100%;
     max-width: 400px;
@@ -312,6 +325,7 @@
     transition: all 0.3s ease;
 }
 
+/* FOCO DEL BUSCADOR: Resaltado azul al escribir */
 .search-input:focus {
     border-color: #3498db;
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);

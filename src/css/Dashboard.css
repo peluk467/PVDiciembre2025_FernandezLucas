@@ -1,3 +1,4 @@
+/* GRILLA PRINCIPAL: Diseño responsivo que acomoda las tarjetas del panel en columnas automáticas */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -5,6 +6,7 @@
   margin-top: 2rem;
 }
 
+/* TARJETAS DE CONTENIDO: Estilo base para los bloques de información (Médicos, Turnos) con fondo blanco y sombra */
 .card {
   background: var(--card-bg);
   padding: 1.5rem;
@@ -12,7 +14,7 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Listas y Slots */
+/* LISTA DE MÉDICOS: Resetea los estilos por defecto de la lista ul/li */
 .doctor-list {
   list-style: none;
   padding: 0;
@@ -22,6 +24,7 @@
   margin-bottom: 0.5rem;
 }
 
+/* BOTÓN DE SELECCIÓN DE MÉDICO: Botón gris ancho para elegir profesional de la lista */
 .doctor-btn {
   width: 100%;
   text-align: left;
@@ -35,19 +38,21 @@
   background-color: #bdc3c7;
 }
 
+/* CONTENEDOR DE HORARIOS: Flexbox para organizar los botones de las horas disponibles */
 .slots-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
+/* BOTÓN DE HORARIO INDIVIDUAL: Estilo azul para cada slot de tiempo */
 .slot-btn {
   background-color: var(--primary);
   color: white;
   flex: 1 1 auto;
 }
 
-/* Ticket PDF View */
+/* CONTENEDOR DEL COMPROBANTE: Centra el ticket visualmente en toda la altura de la pantalla */
 .ticket-wrapper {
   display: flex;
   justify-content: center;
@@ -55,6 +60,7 @@
   height: 80vh;
 }
 
+/* DISEÑO DEL TICKET: Simula un comprobante físico con borde punteado y diseño centrado */
 .ticket-card {
   background: white;
   padding: 2rem;
@@ -64,11 +70,13 @@
   width: 350px;
 }
 
+/* CONTENEDOR DEL BUSCADOR: Espaciado superior para la barra de búsqueda en el Dashboard */
 .search-wrapper {
   display: flex;
   margin-top: 1rem;
 }
 
+/* BARRA DE BÚSQUEDA: Input redondeado, moderno y con sombra suave */
 .search-input {
   width: 100%;
   padding: 12px 20px;
@@ -80,6 +88,7 @@
   transition: all 0.3s ease;
 }
 
+/* ESTADO ACTIVO DEL BUSCADOR: Resalta el borde en azul al escribir */
 .search-input:focus {
   border-color: #3498db;
   box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);

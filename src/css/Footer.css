@@ -1,22 +1,23 @@
-/* src/css/Footer.css */
-
+/* CONTENEDOR DEL PIE DE PÁGINA: Fondo oscuro, texto centrado y lógica 'margin-top: auto' para que siempre se quede al final de la pantalla */
 .main-footer {
-    background-color: var(--secondary); /* Usa el azul oscuro del tema (#2c3e50) */
+    background-color: var(--secondary);
     color: white;
     text-align: center;
     padding: 1.5rem 1rem;
     font-size: 0.9rem;
     width: 100%;
-    margin-top: auto; /* CLAVE: Esto hace que se vaya al final si hay poco contenido */
+    margin-top: auto;
     box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
 }
 
+/* TEXTO DEL FOOTER: Ajustes de espaciado y legibilidad para los párrafos de copyright */
 .main-footer p {
     margin: 0;
     opacity: 0.9;
     line-height: 1.5;
 }
 
+/* TEXTO DESTACADO: Color celeste brillante para resaltar el nombre del desarrollador */
 .main-footer strong {
-    color: #4facfe; /* Resaltamos tu nombre con un tono celeste */
+    color: #4facfe;
 }

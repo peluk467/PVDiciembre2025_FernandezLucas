@@ -1,10 +1,13 @@
+/* CONTENEDOR DE LA PÁGINA DE AUTENTICACIÓN: Centra el formulario en la pantalla y asegura espacio superior para que la barra de navegación no lo tape */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Cambiamos height por min-height para evitar cortes */
-  padding-top: 80px; /* IMPORTANTE: Espacio para que la barra no tape el título */
+  min-height: 100vh; 
+  padding-top: 80px; 
 }
+
+/* TARJETA DEL FORMULARIO: Caja blanca con sombra que contiene los campos de login/registro. Tiene un z-index alto para flotar sobre otros elementos */
 .auth-card {
   background: var(--card-bg);
   padding: 2rem;
@@ -12,19 +15,23 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 400px;
-  position: relative; /* Necesario para el z-index */
-  z-index: 2000;      /* ¡Esto pone el formulario ENCIMA de la barra de navegación! */
+  position: relative; 
+  z-index: 2000;     
 }
+
+/* AGRUPADOR DE CAMPOS: Contenedor que separa visualmente cada par de etiqueta + input para que no se peguen */
 .form-group {
   margin-bottom: 1rem;
 }
 
+/* ETIQUETAS DE CAMPO: Estilo para el texto descriptivo encima de cada input (ej: "Email", "Contraseña") */
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
+/* INPUTS Y SELECTORES: Estilo unificado para cajas de texto y menús desplegables, asegurando que ocupen todo el ancho disponible */
 .form-group input, 
 .form-group select {
   width: 100%;
@@ -34,6 +41,7 @@
   box-sizing: border-box;
 }
 
+/* TEXTO DE REDIRECCIÓN: Enlace al pie del formulario para alternar entre Login y Registro */
 .redirect-text {
   text-align: center;
   margin-top: 1rem;

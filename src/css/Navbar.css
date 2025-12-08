@@ -1,45 +1,41 @@
 /* src/css/Navbar.css */
 
+/* BARRA DE NAVEGACIÓN: Posición absoluta y transparente para flotar sobre el header */
 .navbar {
-  /* --- LO NUEVO: HACER QUE FLOTE --- */
-  position: absolute; /* Saca la barra del flujo normal para que flote */
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;       /* Que ocupe todo el ancho */
-  z-index: 1000;     /* Asegura que esté por encima de la imagen */
-  
-  /* Transparencia */
+  width: 100%;
+  z-index: 1000;
   background-color: transparent;
   box-shadow: none;
-  
-  /* Alineación */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  box-sizing: border-box; /* Evita que el padding rompa el ancho */
+  box-sizing: border-box;
 }
 
-/* --- CAMBIAR TEXTOS A BLANCO --- */
-/* (Necesario para que se lean sobre la foto oscura del hospital) */
-
+/* MARCA Y LOGO: Contenedor para alinear la imagen y el título */
 .nav-brand {
   display: flex;
   align-items: center;
   gap: 15px;
   text-decoration: none;
-  color: white; /* Texto blanco */
+  color: white;
 }
 
+/* TÍTULO DEL HOSPITAL: Estilo de texto con sombra para leerse sobre fondos oscuros */
 .nav-brand h1 {
   margin: 0;
   font-size: 1.5rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* Sombra para leer mejor */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
+/* ENLACES DE MENÚ: Links de navegación en blanco con sombra suave */
 .nav-link {
   text-decoration: none;
-  color: white; /* Links en blanco */
+  color: white;
   font-weight: bold;
   font-size: 1rem;
   text-shadow: 0 2px 4px rgba(0,0,0,0.6);
@@ -47,34 +43,38 @@
   margin-left: 1rem;
 }
 
+/* HOVER ENLACES: Reducción de opacidad al interactuar */
 .nav-link:hover {
   opacity: 0.8;
   color: #ecf0f1;
 }
 
-/* Ajustes del resto de elementos */
+/* IMAGEN DEL LOGO: Control de tamaño y sombra */
 .navbar-logo-img {
-  height: 150px;
+  height: 130px; 
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); /* Sombra al logo también */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
+/* SECCIÓN DE USUARIO: Agrupa los controles de sesión a la derecha */
 .nav-user-section {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
+/* NOMBRE DE USUARIO: Texto identificatorio del usuario logueado */
 .nav-username {
   font-weight: bold;
   color: white;
   text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
+/* BOTÓN DE SALIR: Botón con color de acento para cerrar sesión */
 .btn-logout {
   padding: 0.5rem 1rem;
-  background-color: var(--accent); /* Mantiene el rojo/naranja */
+  background-color: var(--accent);
   color: white;
   border-radius: 4px;
   font-size: 0.9rem;
