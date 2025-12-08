@@ -1,0 +1,22 @@
+/* src/css/Footer.css */
+
+.main-footer {
+    background-color: var(--secondary); /* Usa el azul oscuro del tema (#2c3e50) */
+    color: white;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+    width: 100%;
+    margin-top: auto; /* CLAVE: Esto hace que se vaya al final si hay poco contenido */
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+}
+
+.main-footer p {
+    margin: 0;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.main-footer strong {
+    color: #4facfe; /* Resaltamos tu nombre con un tono celeste */
+}

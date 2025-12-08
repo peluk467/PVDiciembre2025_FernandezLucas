@@ -31,7 +31,7 @@ export default function TurnoTicket({ turno, onReset }) {
     doc.text(`Hora: ${turno.time} hs`, 20, 115);
 
     doc.setFontSize(10);
-    doc.text("Por favor concurrir 10 minutos antes con DNI.", 20, 130);
+    doc.text("Por favor concurrir 10 minutos antes con DNI para confirmar turno", 20, 130);
 
     doc.save(`turno_${turno.id}.pdf`);
   };

@@ -63,3 +63,24 @@
   text-align: center;
   width: 350px;
 }
+
+.search-wrapper {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
