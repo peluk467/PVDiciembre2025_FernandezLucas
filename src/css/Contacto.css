@@ -114,3 +114,110 @@
         gap: 1.5rem;
     }
 }
+
+.btn-whatsapp {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366; /* Verde oficial */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 3000; /* Para que flote sobre todo */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+    transform: scale(1.1); /* Crece un poquito al pasar el mouse */
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    background-color: #20ba5a;
+}
+
+.whatsapp-icon {
+    width: 35px;
+    height: 35px;
+    fill: white; /* Color del icono SVG */
+}
+
+.contact-info-section {
+    margin-top: 3rem;
+    background-color: #4facfe; /* Mismo azul que el botón/tema */
+    color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+}
+
+.info-title {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    text-align: center;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    padding-bottom: 1rem;
+}
+
+.info-grid {
+    display: flex;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.info-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.info-icon {
+    font-size: 1.5rem;
+    background: rgba(255,255,255,0.2);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.info-item p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* El Mapa */
+.map-container {
+    flex: 1;
+    min-height: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 4px solid rgba(255,255,255,0.3);
+}
+
+/* Responsive para celulares: Mapa abajo del texto */
+@media (max-width: 768px) {
+    .info-grid {
+        flex-direction: column;
+    }
+    
+    .map-container {
+        height: 250px;
+    }
+}

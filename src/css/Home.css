@@ -32,10 +32,11 @@
     margin: 0 auto; /* Centrado horizontal */
     padding: 0 2rem;
     color: white;
-    text-align: left; /* Alineado a la izquierda como la referencia */
+    text-align: center; /* Alineado al centro */
 }
 
 .hospital-title {
+    text-align: center;
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -44,6 +45,7 @@
 }
 
 .hospital-subtitle {
+    text-align: center;
     font-size: 1.5rem;
     margin-bottom: 2rem;
     font-weight: 300;

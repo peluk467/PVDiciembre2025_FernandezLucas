@@ -1,14 +1,12 @@
-// src/pages/Login.jsx
 import { useAuth } from '../context/AuthContext';
 import { useForm } from '../hooks/useForm';
-import '../css/Auth.css';
 import { useNavigate, Link } from 'react-router-dom';
+import '../css/Auth.css';
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   
-  // Usamos nuestro hook personalizado
   const [formValues, handleInputChange] = useForm({
     email: '',
     password: ''
@@ -19,15 +17,18 @@ export default function Login() {
     const success = login(formValues.email, formValues.password);
     
     if (success) {
-      navigate('/dashboard');
+      // --- CAMBIO AQUÍ ---
+      // Antes decía: navigate('/dashboard');
+      // Ahora ponemos '/' para que vaya al Inicio
+      navigate('/'); 
     } else {
-      alert('Credenciales inválidas. Intente registrarse.');
+      alert('Credenciales inválidas. Verifique su usuario o regístrese.');
     }
   };
 
   return (
     <div className="auth-container">
-      <div className="card auth-card">
+      <div className="auth-card">
         <h2>Iniciar Sesión</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -36,6 +37,7 @@ export default function Login() {
               type="email" 
               name="email" 
               required
+              placeholder="Ej: usuario@mail.com"
               value={formValues.email} 
               onChange={handleInputChange} 
             />
@@ -46,6 +48,7 @@ export default function Login() {
               type="password" 
               name="password" 
               required
+              placeholder="********"
               value={formValues.password} 
               onChange={handleInputChange} 
             />
