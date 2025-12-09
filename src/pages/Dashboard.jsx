@@ -5,85 +5,83 @@ import TurnoTicket from '../components/TurnoTicket';
 import '../css/Dashboard.css';
 
 export default function Dashboard() {
+  // 1. HOOKS DE CONTEXTO: Traemos usuario (Auth) y funciones de datos (Data)
   const { user } = useAuth();
   const { doctors, appointments, bookAppointment, cancelAppointment, toggleDoctorStatus } = useData();
   
+  // 2. ESTADOS LOCALES: Para controlar la UI (seleccionados, confirmaciones, búsqueda)
   const [selectedDoc, setSelectedDoc] = useState(null);
   const [confirmedTurno, setConfirmedTurno] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // --- VISTA MÉDICO ---
+  // --- VISTA EXCLUSIVA PARA MÉDICOS ---
+  // Si el rol es 'medico', renderizamos un panel de control diferente
   if (user.role === 'medico') {
-    const currentDoctorData = doctors.find(d => d.name === user.name);
+    
+    // Verificamos el estado actual (Licencia/Disponible)
+    const currentDoctorData = doctors.find(d => d.name === user.name); 
     const isOnLeave = currentDoctorData?.status === 'license';
 
+    // Filtramos los turnos donde él es el médico
     const myAppointments = appointments.filter(app => 
         app.doctorName.toLowerCase().includes(user.name.toLowerCase()) || 
         user.name.toLowerCase().includes(app.doctorName.toLowerCase())
     );
 
     return (
-      <div className="container" style={{ paddingTop: '80px' }}>
+      <div className="container dashboard-container">
         
-        <div style={{ marginBottom: '2rem' }}>
+        <div className="dashboard-header-block">
             <h2>Panel Médico: Dr/a. {user.name}</h2>
             <p>Legajo: {user.legajo}</p>
         </div>
 
         <div className="card">
-            <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center', 
-                marginBottom: '1rem',
-                flexWrap: 'wrap',
-                gap: '10px'
-            }}>
-                <h3 style={{ margin: 0 }}>📋 Turnos Vigentes (MAÑANA)</h3>
+            {/* Cabecera Flexbox: Título a la izquierda, Controles a la derecha */}
+            <div className="card-header-flex">
+                <h3 className="card-title">📋 Turnos Vigentes (MAÑANA)</h3>
                 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                    <span style={{ fontWeight: 'bold', color: isOnLeave ? '#e74c3c' : '#27ae60', fontSize: '0.9rem' }}>
+                <div className="license-controls">
+                    {/* Indicador visual de estado */}
+                    <span className={`status-text ${isOnLeave ? 'status-license' : 'status-available'}`}>
                         {isOnLeave ? '🔴 DE LICENCIA' : '🟢 DISPONIBLE'}
                     </span>
+                    {/* Botón para cambiar estado (toggle) */}
                     <button 
                         onClick={() => toggleDoctorStatus(user.name)}
-                        style={{ 
-                            background: isOnLeave ? '#27ae60' : '#f39c12', 
-                            color: 'white', 
-                            padding: '8px 15px', 
-                            fontSize: '0.8rem',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
-                        }}
+                        className={`btn-license ${isOnLeave ? 'btn-back' : 'btn-leave'}`}
                     >
                         {isOnLeave ? 'Volver a Trabajar' : 'Tomar Licencia'}
                     </button>
                 </div>
             </div>
 
+            {/* Renderizado Condicional: Aviso si está de licencia */}
             {isOnLeave && (
-                <div style={{ background: '#fadbd8', color: '#c0392b', padding: '1rem', borderRadius: '4px', marginBottom: '1rem', border: '1px solid #e6b0aa' }}>
+                <div className="alert-license">
                     ⚠️ <strong>Atención:</strong> Usted está en modo licencia. Su perfil aparece bloqueado para nuevos turnos.
                 </div>
             )}
 
+            {/* Tabla de Turnos o Mensaje de Vacío */}
             {myAppointments.length === 0 ? (
-                <p style={{ padding: '1rem', color: '#777' }}>No tiene turnos asignados.</p>
+                <p className="empty-msg">No tiene turnos asignados.</p>
             ) : (
-                <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+                <table className="appointments-table">
                     <thead>
-                        <tr style={{ background: '#eee', textAlign: 'left' }}>
-                            <th style={{ padding: '10px' }}>Horario</th>
-                            <th style={{ padding: '10px' }}>Paciente</th>
-                            <th style={{ padding: '10px' }}>DNI</th>
+                        <tr>
+                            <th>Horario</th>
+                            <th>Paciente</th>
+                            <th>DNI</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {/* Ordenamos por horario antes de mostrar */}
                         {myAppointments.sort((a,b) => a.time.localeCompare(b.time)).map(app => (
-                            <tr key={app.id} style={{ borderBottom: '1px solid #ddd' }}>
-                                <td style={{ padding: '10px', color: '#2980b9', fontWeight: 'bold' }}>{app.time}</td>
-                                <td style={{ padding: '10px' }}>{app.patientName}</td>
-                                <td style={{ padding: '10px' }}>{app.patientDNI}</td>
+                            <tr key={app.id}>
+                                <td className="time-cell">{app.time}</td>
+                                <td>{app.patientName}</td>
+                                <td>{app.patientDNI}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -94,21 +92,24 @@ export default function Dashboard() {
     );
   }
 
-  // --- VISTA PACIENTE ---
+  // --- VISTA EXCLUSIVA PARA PACIENTES ---
   
+  // Filtramos los turnos que pertenecen a este paciente
   const misTurnos = appointments.filter(app => app.patientEmail === user.email);
   
+  // Filtro de búsqueda de médicos (Nombre o Especialidad)
   const filteredDoctors = doctors.filter(doc => 
     doc.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     doc.specialty.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Manejador para reservar turno
   const handleBooking = (time) => {
     if (window.confirm(`¿Confirmar turno con ${selectedDoc.name} a las ${time}?`)) {
       const turno = bookAppointment(user, selectedDoc, time);
-      setConfirmedTurno(turno);
-      setSelectedDoc(null);
-      setSearchTerm("");
+      setConfirmedTurno(turno); // Muestra el ticket
+      setSelectedDoc(null);     // Cierra el acordeón
+      setSearchTerm("");        // Limpia búsqueda
     }
   };
 
@@ -118,70 +119,52 @@ export default function Dashboard() {
     }
   };
 
+  // Si hay un turno recién confirmado, mostramos el Ticket en lugar del Dashboard
   if (confirmedTurno) {
     return <TurnoTicket turno={confirmedTurno} onReset={() => setConfirmedTurno(null)} />;
   }
 
   return (
-    <div className="container" style={{ paddingTop: '80px' }}>
-      <h2 style={{ marginBottom: '2rem' }}>Hola, {user.name}</h2>
+    <div className="container dashboard-container">
+      <h2 className="welcome-title">Hola, {user.name}</h2>
 
-      {/* SECCIÓN 1: MIS TURNOS CONFIRMADOS */}
-      <div className="card" style={{ marginBottom: '2rem', borderLeft: '5px solid #27ae60' }}>
+      {/* SECCIÓN 1: MIS TURNOS */}
+      <div className="card section-my-appointments">
         <h3>📅 Mis Turnos Confirmados</h3>
         {misTurnos.length === 0 ? (
-            <p style={{ color: '#777' }}>Aún no tienes turnos registrados.</p>
+            <p className="empty-msg">Aún no tienes turnos registrados.</p>
         ) : (
-            <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', marginTop: '1rem' }}>
+            <div className="appointments-grid">
                 {misTurnos.map(turno => {
-                    // --- LÓGICA NUEVA: Verificar si el médico de ESTE turno está de licencia ---
-                    // Buscamos al médico "actual" en la lista de doctores usando el nombre guardado en el turno
+                    // Verificamos si el médico de este turno entró en licencia
                     const doctorActual = doctors.find(d => d.name === turno.doctorName);
                     const isDoctorOnLeave = doctorActual?.status === 'license';
-                    // --------------------------------------------------------------------------
 
                     return (
-                        <div key={turno.id} style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0e0e0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                            <h4 style={{ margin: '0', color: '#2c3e50', fontSize: '1.1rem' }}>{turno.doctorName}</h4>
-                            <p style={{ margin: '0', color: '#7f8c8d', fontSize: '0.9rem', marginBottom: '10px' }}>{turno.doctorSpec}</p>
+                        <div key={turno.id} className="appointment-card">
+                            <h4 className="doc-name">{turno.doctorName}</h4>
+                            <p className="doc-spec">{turno.doctorSpec}</p>
                             
-                            <div style={{ background: '#e3f2fd', padding: '10px', borderRadius: '6px', color: '#1565c0', fontSize: '0.95rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className="location-badge">
                                 <span>📍</span> 
                                 {turno.doctorLocation || 'Piso y Cons. a confirmar'}
                             </div>
 
-                            {/* --- CARTEL DE AVISO DE LICENCIA --- */}
+                            {/* Aviso visual si el médico se fue de licencia */}
                             {isDoctorOnLeave && (
-                                <div style={{ 
-                                    marginTop: '15px', 
-                                    background: '#fcf3cf', 
-                                    color: '#b7950b', 
-                                    padding: '10px', 
-                                    borderRadius: '5px', 
-                                    fontSize: '0.9rem',
-                                    border: '1px solid #f9e79f',
-                                    fontWeight: 'bold'
-                                }}>
+                                <div className="alert-license-patient">
                                     ⚠️ El Médico está de licencia, su turno será reprogramado en breve.
                                 </div>
                             )}
-                            {/* ----------------------------------- */}
 
-                            <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div className="appointment-footer">
                                 <div>
-                                    <div style={{ fontSize: '0.8rem', color: '#888' }}>MAÑANA</div>
-                                    <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#2c3e50' }}>{turno.time} hs</div>
+                                    <div className="app-date">MAÑANA</div>
+                                    <div className="app-time">{turno.time} hs</div>
                                 </div>
                                 <button 
                                     onClick={() => handleCancel(turno.id)}
-                                    style={{
-                                        background: '#e74c3c', 
-                                        color: 'white', 
-                                        padding: '5px 10px', 
-                                        fontSize: '0.8rem', 
-                                        borderRadius: '4px',
-                                        cursor: 'pointer'
-                                    }}
+                                    className="btn-cancel"
                                 >
                                     Cancelar Turno
                                 </button>
@@ -193,19 +176,18 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* SECCIÓN 2: SOLICITAR NUEVO TURNO */}
-      <h3 style={{ borderBottom: '2px solid #3498db', paddingBottom: '0.5rem', display: 'inline-block' }}>
+      {/* SECCIÓN 2: SOLICITAR TURNO */}
+      <h3 className="section-title-underline">
         Solicitar Nuevo Turno
       </h3>
       
-      <div className="search-wrapper" style={{ marginBottom: '1.5rem', justifyContent: 'flex-start' }}>
+      <div className="search-wrapper-left">
         <input 
             type="text" 
             placeholder="🔍 Buscar por nombre o especialidad..." 
             className="search-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ maxWidth: '100%' }}
         />
       </div>
 
@@ -219,22 +201,18 @@ export default function Dashboard() {
                         return (
                             <li key={doc.id}>
                                 <button 
-                                    className="doctor-btn" 
+                                    // Deshabilitamos visualmente si está de licencia
+                                    className={`doctor-btn ${isLicense ? 'disabled-doc' : ''}`}
                                     onClick={() => !isLicense && setSelectedDoc(doc)}
-                                    style={{ 
-                                        opacity: isLicense ? 0.6 : 1, 
-                                        cursor: isLicense ? 'not-allowed' : 'pointer',
-                                        background: isLicense ? '#f2f2f2' : '' 
-                                    }}
                                 >
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div className="doctor-btn-content">
                                         <div>
                                             <strong>{doc.name}</strong> 
-                                            {isLicense && <span style={{ marginLeft: '10px', background: '#e74c3c', color: 'white', fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px' }}>DE LICENCIA</span>}
+                                            {isLicense && <span className="badge-license">DE LICENCIA</span>}
                                             <br/>
                                             <small>{doc.specialty}</small>
                                         </div>
-                                        <div style={{ textAlign: 'right', fontSize: '0.8rem', color: '#7f8c8d' }}>
+                                        <div className="doctor-location-mini">
                                             <div>Piso {doc.floor}</div>
                                             <div>Cons. {doc.office}</div>
                                         </div>
@@ -244,18 +222,17 @@ export default function Dashboard() {
                         );
                     })
                 ) : (
-                    <p style={{ color: '#777', padding: '1rem', fontStyle: 'italic' }}>
-                        No se encontraron médicos con ese nombre.
-                    </p>
+                    <p className="empty-msg">No se encontraron médicos con ese nombre.</p>
                 )}
             </ul>
         </div>
 
+        {/* Panel de Horarios (Solo si seleccionó un médico) */}
         {selectedDoc && (
             <div className="card">
                 <h3>Horarios de: {selectedDoc.name}</h3>
                 <p>Ubicación: <strong>Piso {selectedDoc.floor} - Consultorio {selectedDoc.office}</strong></p>
-                <hr style={{ border: '0', borderTop: '1px solid #eee', margin: '1rem 0'}}/>
+                <hr className="divider"/>
                 <div className="slots-container">
                     {selectedDoc.slots.map(slot => (
                         <button key={slot} className="slot-btn" onClick={() => handleBooking(slot)}>

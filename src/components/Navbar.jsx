@@ -13,14 +13,13 @@ export default function Navbar() {
   
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const handleLogout = () => { 
+  const handleLogout = () => { //Cerrar sesión
     logout();      
     navigate('/'); 
   };
 
-  // Filtrar mis mensajes
-  const myMessages = user ? messages.filter(msg => 
-    msg.recipient === user.email || msg.recipient === user.name
+  const myMessages = user ? messages.filter(msg => //Filtra mensajes del usuario
+    msg.recipient === user.email || msg.recipient === user.name //según rol
   ) : [];
 
   // Contar SOLO los que no han sido leídos
@@ -81,7 +80,7 @@ export default function Navbar() {
                                 <p className="no-msg">No tiene mensajes.</p>
                             ) : (
                                 myMessages.map(msg => (
-                                    <div key={msg.id} className="notification-item">
+                                    <div key={msg.id} className="notification-item"> 
                                         <p style={{whiteSpace: 'pre-line'}}>{msg.text}</p>
                                         <small>{msg.date}</small>
                                     </div>
