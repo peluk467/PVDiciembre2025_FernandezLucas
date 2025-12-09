@@ -80,3 +80,133 @@
   font-size: 0.9rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
+
+/* --- ESTILOS PARA MENSAJERÍA (NUEVO) --- */
+
+/* CONTENEDOR DE NOTIFICACIONES: Posicionamiento relativo para anclar el dropdown */
+.notification-container {
+    position: relative;
+    margin-left: 1rem;
+}
+
+/* BOTÓN DE ICONO (SOBRE): Transparente y con efecto hover para el icono de mensajes */
+.btn-icon {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    padding: 5px;
+    transition: transform 0.2s;
+}
+
+/* EFECTO HOVER ICONO: Pequeño aumento de tamaño al pasar el mouse */
+.btn-icon:hover {
+    transform: scale(1.1);
+}
+
+/* BADGE (CONTADOR ROJO): Indicador numérico circular sobre el icono */
+.badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border: 2px solid #2c3e50;
+}
+
+/* PANEL DESPLEGABLE: Caja blanca flotante que contiene los mensajes */
+.notification-dropdown {
+    position: absolute;
+    top: 50px;
+    right: -50px; 
+    width: 320px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 2000;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+    border: 1px solid #ddd;
+}
+
+/* CABECERA DE NOTIFICACIONES: Barra azul con título y botón cerrar */
+.notification-header {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* TÍTULO DEL PANEL: Texto simple para la cabecera */
+.notification-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    text-shadow: none;
+}
+
+/* BOTÓN CERRAR PANEL: X pequeña transparente */
+.close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* CUERPO DE MENSAJES: Área con scroll vertical si hay muchas notificaciones */
+.notification-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* ITEM DE MENSAJE: Estilo individual para cada notificación en la lista */
+.notification-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    color: #333;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* FECHA DEL MENSAJE: Texto pequeño y gris debajo del mensaje */
+.notification-item small {
+    display: block;
+    margin-top: 8px;
+    color: #999;
+    font-size: 0.75rem;
+}
+
+/* MENSAJE VACÍO: Texto central cuando no hay notificaciones */
+.no-msg {
+    padding: 20px;
+    color: #777;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ANIMACIÓN DE APARICIÓN: Suave entrada desde arriba */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE: Ajuste del ancho en pantallas pequeñas */
+@media (max-width: 500px) {
+    .notification-dropdown {
+        width: 280px;
+        right: -80px;
+    }
+}
