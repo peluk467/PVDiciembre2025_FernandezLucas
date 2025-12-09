@@ -29,16 +29,16 @@ export const DataProvider = ({ children }) => {
     const storedMsgs = localStorage.getItem('messages');
     return storedMsgs ? JSON.parse(storedMsgs) : [];
   });
-
+// Cargar turnos desde localStorage al iniciar
   useEffect(() => { 
     const storedAppts = JSON.parse(localStorage.getItem('appointments')) || []; 
     setAppointments(storedAppts); 
   }, []);
-
+// Guardar doctores y mensajes en localStorage al cambiar
   useEffect(() => {
     localStorage.setItem('doctors', JSON.stringify(doctors)); 
   }, [doctors]);
-
+// Guardar mensajes en localStorage al cambiar
   useEffect(() => {
     localStorage.setItem('messages', JSON.stringify(messages));
   }, [messages]);

@@ -7,9 +7,10 @@ export default function Contacto() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value }); // Actualiza el estado del formulario
   };
 
+  // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Enviando:", formData);
@@ -17,7 +18,7 @@ export default function Contacto() {
     setFormData({ nombre: '', apellido: '', email: '', asunto: '', mensaje: '' });
   };
 
-  // Tu número real para el botón flotante y la info
+  // Mi numero de WhatsApp y mensaje predeterminado
   const miNumero = "5493884397876"; 
   const mensajePredeterminado = "Hola, quisiera hacer una consulta sobre el Hospital Fernández.";
 

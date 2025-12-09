@@ -6,7 +6,7 @@ import '../css/Navbar.css';
 
 //Barra de navegación superior
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth(); 
   // Traemos 'messages' y la nueva función 'markAsRead'
   const { messages, markAsRead } = useData(); 
   const navigate = useNavigate(); 
@@ -28,8 +28,8 @@ export default function Navbar() {
   // Manejar la apertura del panel y marcar como leído
   const handleToggleNotifications = () => {
     // Si la vamos a ABRIR, marcamos todo como leído
-    if (!showNotifications && unreadCount > 0) {
-        const identifier = user.role === 'medico' ? user.name : user.email;
+    if (!showNotifications && unreadCount > 0) { 
+        const identifier = user.role === 'medico' ? user.name : user.email; 
         markAsRead(identifier);
     }
     setShowNotifications(!showNotifications);

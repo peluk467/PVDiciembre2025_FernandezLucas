@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   //Recupera la sesión de localStorage al recargar la página
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedUser) setUser(JSON.parse(storedUser)); 
   }, []);
 
   //LOGIN: Valida credenciales contra la "base de datos" local

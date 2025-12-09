@@ -11,7 +11,6 @@ export default function BackButton() { //Boton para volver
     <button  
       className="back-button-fixed"  
       onClick={() => navigate(-1)} //Vuelve atrás en el historial
-      title="Volver atras"
     >
       {/* Icono flecha */}
       <svg className="back-icon" viewBox="0 0 24 24">  
