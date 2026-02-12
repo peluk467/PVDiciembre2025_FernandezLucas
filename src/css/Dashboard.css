@@ -1,251 +1,265 @@
-/* src/css/Dashboard.css (AGREGAR AL FINAL) */
-
-/* -- ESTRUCTURA GENERAL -- */
-
-/* Espaciado superior para evitar que la navbar flotante tape el contenido */
 .dashboard-container {
-    padding-top: 80px; 
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 80vh;
 }
 
-.dashboard-header-block {
-    margin-bottom: 2rem;
+/* Animación de entrada */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.welcome-title {
-    margin-bottom: 2rem;
+/* Headers */
+.panel-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.panel-header h1 {
+  color: #2c3e50;
+  font-size: 2rem;
 }
 
-/* -- TARJETAS Y CONTROLES -- */
-
-/* Flexbox para alinear título a la izquierda y botones a la derecha */
-.card-header-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    flex-wrap: wrap; /* Permite que baje el botón en celulares */
-    gap: 10px;
+/* Buscador */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  border-radius: 30px;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+.search-input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
 }
 
-.card-title {
-    margin: 0;
+/* Grilla de Médicos */
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-/* Contenedor de estado y botón de licencia */
-.license-controls {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.doctor-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s;
+  border: 1px solid #eee;
+}
+.doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
-.status-text {
-    font-weight: bold;
-    font-size: 0.9rem;
+.doc-info h3 {
+  margin: 0 0 5px 0;
+  color: #34495e;
+}
+.doc-spec {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 10px;
 }
 
-/* Colores semánticos para el estado */
-.status-license { color: #e74c3c; }   /* Rojo */
-.status-available { color: #27ae60; } /* Verde */
-
-/* Botones de cambio de estado */
-.btn-license {
-    color: white;
-    padding: 8px 15px;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    transition: background 0.3s;
+/* Badges de estado */
+.status-badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.status-badge.available {
+  background-color: #e8f8f5;
+  color: #27ae60;
+}
+.status-badge.license {
+  background-color: #fdedec;
+  color: #c0392b;
 }
 
-.btn-leave { background: #f39c12; } /* Naranja */
-.btn-leave:hover { background: #d68910; }
+/* =========================================
+   ESTILOS NUEVOS PARA EL MODAL (POPUP)
+   ========================================= */
 
-.btn-back { background: #27ae60; }  /* Verde */
-.btn-back:hover { background: #1e8449; }
-
-/* -- ALERTAS -- */
-
-/* Alerta Roja (Vista Médico) */
-.alert-license {
-    background: #fadbd8;
-    color: #c0392b;
-    padding: 1rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    border: 1px solid #e6b0aa;
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 900; /* Menor que BackButton (que suele ser muy alto) */
+  backdrop-filter: blur(2px); /* Efecto borroso de fondo */
 }
 
-/* Alerta Amarilla (Vista Paciente) */
-.alert-license-patient {
-    margin-top: 15px;
-    background: #fcf3cf;
-    color: #b7950b;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    border: 1px solid #f9e79f;
-    font-weight: bold;
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: scaleUp 0.3s ease-out;
+  border-top: 5px solid #3498db;
 }
 
-/* -- TABLA DE TURNOS (MÉDICO) -- */
-.appointments-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+@keyframes scaleUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
-.appointments-table th {
-    background: #eee;
-    text-align: left;
-    padding: 10px;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.appointments-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #2c3e50;
 }
 
-.time-cell {
-    color: #2980b9;
-    font-weight: bold;
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #e74c3c;
 }
 
-/* -- TARJETAS DE TURNOS (PACIENTE) -- */
-
-/* Borde izquierdo verde para destacar la sección */
-.section-my-appointments {
-    margin-bottom: 2rem;
-    border-left: 5px solid #27ae60;
+.modal-body {
+  text-align: center;
 }
 
-/* Grilla responsive para las tarjetas de turnos */
+.modal-doc-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+.modal-doc-spec {
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+}
+.modal-doc-loc {
+  background: #f4f6f7;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+/* Grilla de horarios dentro del modal */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.slot-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  font-weight: 500;
+}
+.slot-btn:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+.no-slots {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Vista Medico */
+.doctor-status-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.status-indicator {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+.status-indicator.available { background: #d4efdf; color: #1e8449; }
+.status-indicator.license { background: #fadbd8; color: #c0392b; }
+
+.btn-status {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-license { background: #e74c3c; color: white; }
+.btn-available { background: #27ae60; color: white; }
+
 .appointments-grid {
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
     margin-top: 1rem;
 }
 
-.appointment-card {
-    background: #fff;
-    padding: 1.5rem;
+.appointment-mini-card {
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    padding: 15px;
     border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.doc-name {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.1rem;
-}
-
-.doc-spec {
-    margin: 0;
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-}
-
-.location-badge {
-    background: #e3f2fd;
-    padding: 10px;
-    border-radius: 6px;
-    color: #1565c0;
-    font-size: 0.95rem;
-    font-weight: bold;
     display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.appointment-footer {
-    margin-top: 15px;
-    display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
 }
 
-.app-date {
-    font-size: 0.8rem;
-    color: #888;
-}
-
-.app-time {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-.btn-cancel {
+.status-badge-mini {
     background: #e74c3c;
     color: white;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-cancel:hover {
-    background: #c0392b;
-}
-
-/* -- OTROS ESTILOS -- */
-
-.search-wrapper-left {
-    display: flex;
-    margin-bottom: 1.5rem;
-    justify-content: flex-start;
-}
-
-.search-input {
-    max-width: 100%;
-}
-
-.section-title-underline {
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
-    display: inline-block;
-}
-
-/* Estilo para médico deshabilitado (Licencia) */
-.disabled-doc {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background: #f2f2f2;
-}
-
-.doctor-btn-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.badge-license {
-    margin-left: 10px;
-    background: #e74c3c;
-    color: white;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.doctor-location-mini {
-    text-align: right;
-    font-size: 0.8rem;
-    color: #7f8c8d;
-}
-
-.divider {
-    border: 0;
-    border-top: 1px solid #eee;
-    margin: 1rem 0;
-}
-
-.empty-msg {
-    color: #777;
-    padding: 1rem;
-    font-style: italic;
+    border-radius: 10px;
+    margin-left: 10px;
+    vertical-align: middle;
 }

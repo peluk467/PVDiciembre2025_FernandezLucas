@@ -1,248 +1,187 @@
 import { useState } from 'react';
-import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
+import { useData } from '../context/DataContext';
 import TurnoTicket from '../components/TurnoTicket';
 import '../css/Dashboard.css';
 
 export default function Dashboard() {
-  // 1. HOOKS DE CONTEXTO: Traemos usuario (Auth) y funciones de datos (Data)
   const { user } = useAuth();
-  const { doctors, appointments, bookAppointment, cancelAppointment, toggleDoctorStatus } = useData();
-  
-  // 2. ESTADOS LOCALES: Para controlar la UI (seleccionados, confirmaciones, búsqueda)
+  const { doctors, bookAppointment, toggleDoctorStatus } = useData();
+
+  // Estados para el Paciente
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedDoc, setSelectedDoc] = useState(null);
-  const [confirmedTurno, setConfirmedTurno] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [bookingSuccess, setBookingSuccess] = useState(null);
 
-  // --- VISTA EXCLUSIVA PARA MÉDICOS ---
-  // Si el rol es 'medico', renderizamos un panel de control diferente
-  if (user.role === 'medico') {
-    
-    // Verificamos el estado actual (Licencia/Disponible)
-    const currentDoctorData = doctors.find(d => d.name === user.name); 
-    const isOnLeave = currentDoctorData?.status === 'license';
-
-    // Filtramos los turnos donde él es el médico
-    const myAppointments = appointments.filter(app => 
-        app.doctorName.toLowerCase().includes(user.name.toLowerCase()) || 
-        user.name.toLowerCase().includes(app.doctorName.toLowerCase())
-    );
-
-    return (
-      <div className="container dashboard-container">
-        
-        <div className="dashboard-header-block">
-            <h2>Panel Médico: Dr/a. {user.name}</h2>
-            <p>Legajo: {user.legajo}</p>
-        </div>
-
-        <div className="card">
-            {/* Cabecera Flexbox: Título a la izquierda, Controles a la derecha */}
-            <div className="card-header-flex">
-                <h3 className="card-title">📋 Turnos Vigentes (MAÑANA)</h3>
-                
-                <div className="license-controls">
-                    {/* Indicador visual de estado */}
-                    <span className={`status-text ${isOnLeave ? 'status-license' : 'status-available'}`}>
-                        {isOnLeave ? '🔴 DE LICENCIA' : '🟢 DISPONIBLE'}
-                    </span>
-                    {/* Botón para cambiar estado (toggle) */}
-                    <button 
-                        onClick={() => toggleDoctorStatus(user.name)}
-                        className={`btn-license ${isOnLeave ? 'btn-back' : 'btn-leave'}`}
-                    >
-                        {isOnLeave ? 'Volver a Trabajar' : 'Tomar Licencia'}
-                    </button>
-                </div>
-            </div>
-
-            {/* Renderizado Condicional: Aviso si está de licencia */}
-            {isOnLeave && (
-                <div className="alert-license">
-                    ⚠️ <strong>Atención:</strong> Usted está en modo licencia. Su perfil aparece bloqueado para nuevos turnos.
-                </div>
-            )}
-
-            {/* Tabla de Turnos o Mensaje de Vacío */}
-            {myAppointments.length === 0 ? (
-                <p className="empty-msg">No tiene turnos asignados.</p>
-            ) : (
-                <table className="appointments-table">
-                    <thead>
-                        <tr>
-                            <th>Horario</th>
-                            <th>Paciente</th>
-                            <th>DNI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Ordenamos por horario antes de mostrar */}
-                        {myAppointments.sort((a,b) => a.time.localeCompare(b.time)).map(app => (
-                            <tr key={app.id}>
-                                <td className="time-cell">{app.time}</td>
-                                <td>{app.patientName}</td>
-                                <td>{app.patientDNI}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
-        </div>
-      </div>
-    );
-  }
-
-  // --- VISTA EXCLUSIVA PARA PACIENTES ---
-  
-  // Filtramos los turnos que pertenecen a este paciente
-  const misTurnos = appointments.filter(app => app.patientEmail === user.email);
-  
-  // Filtro de búsqueda de médicos (Nombre o Especialidad)
-  const filteredDoctors = doctors.filter(doc => 
-    doc.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  // --- LÓGICA PACIENTE ---
+  const filteredDoctors = doctors.filter(doc =>
+    doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     doc.specialty.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Manejador para reservar turno
   const handleBooking = (time) => {
-    if (window.confirm(`¿Confirmar turno con ${selectedDoc.name} a las ${time}?`)) {
-      const turno = bookAppointment(user, selectedDoc, time);
-      setConfirmedTurno(turno); // Muestra el ticket
-      setSelectedDoc(null);     // Cierra el acordeón
-      setSearchTerm("");        // Limpia búsqueda
-    }
+    if (!selectedDoc) return;
+    const ticket = bookAppointment(user, selectedDoc, time);
+    setBookingSuccess(ticket);
+    setSelectedDoc(null); // Cierra el modal
   };
 
-  const handleCancel = (id) => {
-    if (window.confirm("¿Estás seguro que deseas cancelar este turno?")) {
-        cancelAppointment(id);
-    }
+  const resetBooking = () => {
+    setBookingSuccess(null);
+    setSelectedDoc(null);
+    setSearchTerm('');
   };
 
-  // Si hay un turno recién confirmado, mostramos el Ticket en lugar del Dashboard
-  if (confirmedTurno) {
-    return <TurnoTicket turno={confirmedTurno} onReset={() => setConfirmedTurno(null)} />;
-  }
+  // --- LÓGICA MÉDICO ---
+  const handleToggleStatus = () => {
+    toggleDoctorStatus(user.name);
+  };
+  
+  // Buscar datos actuales del médico logueado
+  const currentDoctor = user.role === 'medico' 
+    ? doctors.find(d => d.name === user.name) 
+    : null;
 
+  // ---------------- RENDERIZADO ----------------
   return (
-    <div className="container dashboard-container">
-      <h2 className="welcome-title">Hola, {user.name}</h2>
-
-      {/* SECCIÓN 1: MIS TURNOS */}
-      <div className="card section-my-appointments">
-        <h3>📅 Mis Turnos Confirmados</h3>
-        {misTurnos.length === 0 ? (
-            <p className="empty-msg">Aún no tienes turnos registrados.</p>
-        ) : (
-            <div className="appointments-grid">
-                {misTurnos.map(turno => {
-                    // Verificamos si el médico de este turno entró en licencia
-                    const doctorActual = doctors.find(d => d.name === turno.doctorName);
-                    const isDoctorOnLeave = doctorActual?.status === 'license';
-
-                    return (
-                        <div key={turno.id} className="appointment-card">
-                            <h4 className="doc-name">{turno.doctorName}</h4>
-                            <p className="doc-spec">{turno.doctorSpec}</p>
-                            
-                            <div className="location-badge">
-                                <span>📍</span> 
-                                {turno.doctorLocation || 'Piso y Cons. a confirmar'}
-                            </div>
-
-                            {/* Aviso visual si el médico se fue de licencia */}
-                            {isDoctorOnLeave && (
-                                <div className="alert-license-patient">
-                                    ⚠️ El Médico está de licencia, su turno será reprogramado en breve.
-                                </div>
-                            )}
-
-                            <div className="appointment-footer">
-                                <div>
-                                    <div className="app-date">MAÑANA</div>
-                                    <div className="app-time">{turno.time} hs</div>
-                                </div>
-                                <button 
-                                    onClick={() => handleCancel(turno.id)}
-                                    className="btn-cancel"
-                                >
-                                    Cancelar Turno
-                                </button>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        )}
-      </div>
-
-      {/* SECCIÓN 2: SOLICITAR TURNO */}
-      <h3 className="section-title-underline">
-        Solicitar Nuevo Turno
-      </h3>
+    <div className="dashboard-container fade-in">
       
-      <div className="search-wrapper-left">
-        <input 
-            type="text" 
-            placeholder="🔍 Buscar por nombre o especialidad..." 
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+      {/* ================= VISTA PACIENTE ================= */}
+      {user.role === 'paciente' && (
+        <>
+          {/* Si ya reservó, mostramos el Ticket */}
+          {bookingSuccess ? (
+            <TurnoTicket turno={bookingSuccess} onReset={resetBooking} />
+          ) : (
+            <div className="patient-panel">
+              <header className="panel-header">
+                <h1>Reserva de Turnos</h1>
+                <p>Busca un especialista y selecciona el horario de tu preferencia.</p>
+              </header>
 
-      <div className="grid">
-        <div className="card">
-            <h3>Médicos Disponibles</h3>
-            <ul className="doctor-list">
-                {filteredDoctors.length > 0 ? (
-                    filteredDoctors.map(doc => {
-                        const isLicense = doc.status === 'license';
-                        return (
-                            <li key={doc.id}>
-                                <button 
-                                    // Deshabilitamos visualmente si está de licencia
-                                    className={`doctor-btn ${isLicense ? 'disabled-doc' : ''}`}
-                                    onClick={() => !isLicense && setSelectedDoc(doc)}
-                                >
-                                    <div className="doctor-btn-content">
-                                        <div>
-                                            <strong>{doc.name}</strong> 
-                                            {isLicense && <span className="badge-license">DE LICENCIA</span>}
-                                            <br/>
-                                            <small>{doc.specialty}</small>
-                                        </div>
-                                        <div className="doctor-location-mini">
-                                            <div>Piso {doc.floor}</div>
-                                            <div>Cons. {doc.office}</div>
-                                        </div>
-                                    </div>
-                                </button>
-                            </li>
-                        );
-                    })
-                ) : (
-                    <p className="empty-msg">No se encontraron médicos con ese nombre.</p>
+              {/* Buscador */}
+              <div className="search-bar-container">
+                <input 
+                  type="text" 
+                  placeholder="🔍 Buscar por médico o especialidad..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+              </div>
+
+              {/* Lista de Médicos (Grid) */}
+              <div className="doctors-grid">
+                {filteredDoctors.map(doc => (
+                  <div key={doc.id} className="doctor-card">
+                    <div className="doc-info">
+                      <h3>{doc.name}</h3>
+                      <span className="doc-spec">{doc.specialty}</span>
+                      
+                      {/* Estado del médico */}
+                      {doc.status === 'license' ? (
+                        <span className="status-badge license">De Licencia</span>
+                      ) : (
+                        <span className="status-badge available">Disponible</span>
+                      )}
+                    </div>
+
+                    <button 
+                      className="btn-primary"
+                      disabled={doc.status === 'license'}
+                      onClick={() => setSelectedDoc(doc)}
+                    >
+                      {doc.status === 'license' ? 'No disponible' : 'Ver Turnos'}
+                    </button>
+                  </div>
+                ))}
+
+                {filteredDoctors.length === 0 && (
+                  <p className="no-results">No se encontraron médicos.</p>
                 )}
-            </ul>
-        </div>
+              </div>
 
-        {/* Panel de Horarios (Solo si seleccionó un médico) */}
-        {selectedDoc && (
-            <div className="card">
-                <h3>Horarios de: {selectedDoc.name}</h3>
-                <p>Ubicación: <strong>Piso {selectedDoc.floor} - Consultorio {selectedDoc.office}</strong></p>
-                <hr className="divider"/>
-                <div className="slots-container">
-                    {selectedDoc.slots.map(slot => (
-                        <button key={slot} className="slot-btn" onClick={() => handleBooking(slot)}>
-                            {slot}
-                        </button>
-                    ))}
+              {/* === MODAL DE HORARIOS (ENCIMADO) === */}
+              {selectedDoc && (
+                <div className="modal-overlay" onClick={() => setSelectedDoc(null)}>
+                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-header">
+                      <h2>Turnos Disponibles</h2>
+                      <button className="close-btn" onClick={() => setSelectedDoc(null)}>✕</button>
+                    </div>
+                    
+                    <div className="modal-body">
+                      <p className="modal-doc-name">{selectedDoc.name}</p>
+                      <p className="modal-doc-spec">{selectedDoc.specialty}</p>
+                      <p className="modal-doc-loc">
+                        📍 Piso {selectedDoc.floor} - Consultorio {selectedDoc.office}
+                      </p>
+
+                      <hr />
+
+                      <div className="slots-grid">
+                        {selectedDoc.slots.length > 0 ? (
+                          selectedDoc.slots.map(slot => (
+                            <button 
+                              key={slot} 
+                              className="slot-btn" 
+                              onClick={() => handleBooking(slot)}
+                            >
+                              {slot} hs
+                            </button>
+                          ))
+                        ) : (
+                          <p className="no-slots">Sin turnos disponibles por hoy.</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              )}
             </div>
-        )}
-      </div>
+          )}
+        </>
+      )}
+
+      {/* ================= VISTA MÉDICO ================= */}
+      {user.role === 'medico' && currentDoctor && (
+        <div className="doctor-panel">
+          <header className="panel-header">
+            <h1>Panel Médico</h1>
+            <p>Gestione sus estados y visualice su disponibilidad.</p>
+          </header>
+
+          <div className="doctor-status-card">
+            <h2>Estado Actual</h2>
+            <div className={`status-indicator ${currentDoctor.status}`}>
+              {currentDoctor.status === 'available' ? '🟢 Atendiendo' : '🔴 De Licencia'}
+            </div>
+            
+            <p className="status-desc">
+              {currentDoctor.status === 'available' 
+                ? "Su agenda está abierta para recibir turnos." 
+                : "Su agenda está bloqueada. Se han notificado cancelaciones."}
+            </p>
+
+            <button 
+              className={`btn-status ${currentDoctor.status === 'available' ? 'btn-license' : 'btn-available'}`}
+              onClick={handleToggleStatus}
+            >
+              {currentDoctor.status === 'available' ? 'Solicitar Licencia' : 'Habilitar Agenda'}
+            </button>
+          </div>
+
+          <div className="my-slots-section">
+            <h3>Mis Horarios Libres</h3>
+            <div className="slots-list">
+               {currentDoctor.slots.length > 0 
+                 ? currentDoctor.slots.map(s => <span key={s} className="slot-tag">{s}</span>)
+                 : <p>No tiene huecos libres hoy.</p>
+               }
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

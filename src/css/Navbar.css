@@ -51,7 +51,7 @@
 
 /* IMAGEN DEL LOGO: Control de tamaño y sombra */
 .navbar-logo-img {
-  height: 130px; 
+  height: 70px; 
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
