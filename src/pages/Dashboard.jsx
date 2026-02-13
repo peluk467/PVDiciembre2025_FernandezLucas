@@ -6,7 +6,6 @@ import '../css/Dashboard.css';
 
 export default function Dashboard() {
   const { user } = useAuth();
-  // Traemos appointments y cancelAppointment del contexto
   const { doctors, bookAppointment, toggleDoctorStatus, appointments, cancelAppointment } = useData();
 
   // Estados para el Paciente
@@ -14,24 +13,31 @@ export default function Dashboard() {
   const [selectedDoc, setSelectedDoc] = useState(null);
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
-  // --- LÓGICA PACIENTE ---
+  // --- LÓGICAS DE FILTRADO ---
 
-  // 1. Filtrar los turnos que pertenecen al usuario logueado
+  // 1. Filtrar los turnos del usuario PACIENTE
   const myAppointments = user.role === 'paciente' 
     ? appointments.filter(app => app.patientEmail === user.email)
     : [];
 
-  // 2. Filtrar médicos para el buscador
+  // 2. Filtrar los turnos asignados al usuario MÉDICO
+  const doctorAppointments = user.role === 'medico'
+    ? appointments.filter(app => app.doctorName === user.name)
+    : [];
+
+  // 3. Filtrar médicos para el buscador (Vista Paciente)
   const filteredDoctors = doctors.filter(doc =>
     doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     doc.specialty.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // --- ACCIONES ---
+
   const handleBooking = (time) => {
     if (!selectedDoc) return;
     const ticket = bookAppointment(user, selectedDoc, time);
     setBookingSuccess(ticket);
-    setSelectedDoc(null); // Cierra el modal
+    setSelectedDoc(null); 
   };
 
   const handleCancel = (id) => {
@@ -46,12 +52,10 @@ export default function Dashboard() {
     setSearchTerm('');
   };
 
-  // --- LÓGICA MÉDICO ---
   const handleToggleStatus = () => {
     toggleDoctorStatus(user.name);
   };
   
-  // Buscar datos actuales del médico logueado
   const currentDoctor = user.role === 'medico' 
     ? doctors.find(d => d.name === user.name) 
     : null;
@@ -63,7 +67,6 @@ export default function Dashboard() {
       {/* ================= VISTA PACIENTE ================= */}
       {user.role === 'paciente' && (
         <>
-          {/* Si ya reservó y tiene el ticket en pantalla */}
           {bookingSuccess ? (
             <TurnoTicket turno={bookingSuccess} onReset={resetBooking} />
           ) : (
@@ -73,7 +76,7 @@ export default function Dashboard() {
                 <p>Bienvenido, {user.name}</p>
               </header>
 
-              {/* --- SECCIÓN: MIS TURNOS RESERVADOS --- */}
+              {/* --- MIS TURNOS CONFIRMADOS --- */}
               {myAppointments.length > 0 ? (
                 <div className="my-appointments-section">
                     <h2 className="section-title">📅 Mis Turnos Confirmados</h2>
@@ -102,18 +105,15 @@ export default function Dashboard() {
                     <hr className="divider"/>
                 </div>
               ) : (
-                // Mensaje opcional si no tiene turnos
                 <div style={{textAlign: 'center', marginBottom: '2rem', color: '#777'}}>
                     <p>No tienes turnos reservados actualmente.</p>
                 </div>
               )}
-              {/* ----------------------------------------- */}
 
-              {/* --- SECCIÓN: RESERVAR NUEVO TURNO --- */}
+              {/* --- RESERVAR NUEVO TURNO --- */}
               <div className="booking-section">
                   <h2 className="section-title">🔍 Reservar Nuevo Turno</h2>
                   
-                  {/* Buscador */}
                   <div className="search-bar-container">
                     <input 
                       type="text" 
@@ -124,7 +124,6 @@ export default function Dashboard() {
                     />
                   </div>
 
-                  {/* Lista de Médicos (Grid) */}
                   <div className="doctors-grid">
                     {filteredDoctors.map(doc => (
                       <div key={doc.id} className="doctor-card">
@@ -132,7 +131,6 @@ export default function Dashboard() {
                           <h3>{doc.name}</h3>
                           <span className="doc-spec">{doc.specialty}</span>
                           
-                          {/* Estado del médico */}
                           {doc.status === 'license' ? (
                             <span className="status-badge license">De Licencia</span>
                           ) : (
@@ -203,7 +201,7 @@ export default function Dashboard() {
         <div className="doctor-panel">
           <header className="panel-header">
             <h1>Panel Médico</h1>
-            <p>Gestione sus estados y visualice su disponibilidad.</p>
+            <p>Dr/a. {user.name} - Gestione su agenda de hoy.</p>
           </header>
 
           <div className="doctor-status-card">
@@ -215,7 +213,7 @@ export default function Dashboard() {
             <p className="status-desc">
               {currentDoctor.status === 'available' 
                 ? "Su agenda está abierta para recibir turnos." 
-                : "Su agenda está bloqueada. Se han notificado cancelaciones."}
+                : "Su agenda está bloqueada. Se han notificado cancelaciones a los pacientes."}
             </p>
 
             <button 
@@ -226,8 +224,39 @@ export default function Dashboard() {
             </button>
           </div>
 
+          {/* --- NUEVA SECCIÓN: PACIENTES ASIGNADOS AL MÉDICO --- */}
+          <div className="my-appointments-section">
+              <h2 className="section-title">👥 Pacientes Agendados</h2>
+              <div className="appointments-grid-patient">
+                  {doctorAppointments.length > 0 ? (
+                      doctorAppointments.map(app => (
+                          <div key={app.id} className="appointment-card-blue" style={{ borderLeft: '4px solid #27ae60' }}>
+                              <div className="app-details">
+                                  <strong className="app-spec">DNI: {app.patientDNI}</strong>
+                                  <p className="app-doc-name">{app.patientName}</p>
+                                  <div className="app-time-box">
+                                      <span>🕒 {app.time} hs</span>
+                                  </div>
+                                  <small className="app-location">✉️ {app.patientEmail}</small>
+                              </div>
+                              <button 
+                                  className="btn-cancel-red"
+                                  onClick={() => handleCancel(app.id)}
+                                  title="Cancelar turno del paciente"
+                              >
+                                  Cancelar Turno
+                              </button>
+                          </div>
+                      ))
+                  ) : (
+                      <p style={{ color: '#777', fontStyle: 'italic' }}>No tiene pacientes agendados actualmente.</p>
+                  )}
+              </div>
+          </div>
+          {/* ---------------------------------------------------- */}
+
           <div className="my-slots-section">
-            <h3>Mis Horarios Libres</h3>
+            <h2 className="section-title">⏰ Mis Horarios Libres</h2>
             <div className="slots-list">
                {currentDoctor.slots.length > 0 
                  ? currentDoctor.slots.map(s => <span key={s} className="slot-tag">{s}</span>)

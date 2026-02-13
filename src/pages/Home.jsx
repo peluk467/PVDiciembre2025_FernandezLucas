@@ -4,7 +4,7 @@ import '../css/Home.css';
 
 export default function Home() {
   const { user } = useAuth(); // <--- Obtenemos el usuario
-  const heroImageUrl = "public/hosp.png";
+  const heroImageUrl = "/hosp.png";
 
   return (
     <div className="home-container">
