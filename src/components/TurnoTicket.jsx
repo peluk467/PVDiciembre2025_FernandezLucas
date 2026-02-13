@@ -3,79 +3,133 @@ import '../css/Dashboard.css';
 
 export default function TurnoTicket({ turno, onReset }) {
 
-  //Construye el PDF
   const generatePDF = () => {
-    const doc = new jsPDF();//Pdf en blanco
+    const doc = new jsPDF();
 
-    doc.setFontSize(20);
-    doc.text("Comprobante de Turno Médico", 20, 20);
-    
-    doc.setFontSize(10);
-    doc.text("Hospital Fernández", 20, 26);
-    
-    //Datos del Paciente
+    // Encabezado del PDF
+    doc.setFillColor(52, 152, 219); 
+    doc.rect(0, 0, 210, 20, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+    doc.text("HOSPITAL FERNÁNDEZ - Comprobante de Turno", 105, 13, null, null, "center");
+
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(12);
-    doc.text(`ID Turno: ${turno.id}`, 20, 40);
-    doc.text(`Paciente: ${turno.patientName}`, 20, 50);
-    doc.text(`DNI: ${turno.patientDNI}`, 20, 60);
-    
-    //Línea divisoria
-    doc.line(20, 65, 190, 65); 
+    doc.setFont(undefined, 'bold');
+    doc.text(`ID Turno: #${turno.id}`, 20, 40);
+    doc.setFont(undefined, 'normal');
+    doc.text("----------------------------------------------------------------------------------", 20, 45);
 
-    //Datos del Médico
-    doc.text(`Médico: ${turno.doctorName}`, 20, 75);
-    doc.text(`Especialidad: ${turno.doctorSpec}`, 20, 85);
-    
-    doc.setFont(undefined, 'bold');//Negrita
-    //Destaca la ubicación del consultorio
-    doc.text(`UBICACIÓN: ${turno.doctorLocation || 'Consultar en admisión'}`, 20, 95);
-    doc.setFont(undefined, 'normal');//Normal
+    let y = 55;
+    const lineHeight = 10;
 
+    doc.setFont(undefined, 'bold');
+    doc.text("PACIENTE:", 20, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(`${turno.patientName} (DNI: ${turno.patientDNI})`, 60, y);
     
-    doc.text(`Fecha: ${turno.date}`, 20, 105);
-    doc.text(`Hora: ${turno.time} hs`, 20, 115);
+    y += lineHeight;
+    doc.setFont(undefined, 'bold');
+    doc.text("MÉDICO:", 20, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(turno.doctorName, 60, y);
 
-    //Mensaje del pie
+    y += lineHeight;
+    doc.setFont(undefined, 'bold');
+    doc.text("ESPECIALIDAD:", 20, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(turno.doctorSpec, 60, y);
+
+    y += lineHeight;
+    doc.setFont(undefined, 'bold');
+    doc.text("FECHA Y HORA:", 20, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(`${turno.date} - ${turno.time} hs`, 60, y);
+
+    y += 15;
+    doc.setDrawColor(0);
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, y, 170, 20, 3, 3, 'FD');
+    doc.setFont(undefined, 'bold');
+    doc.text(`UBICACIÓN: ${turno.doctorLocation}`, 105, y + 13, null, null, "center");
+
     doc.setFontSize(10);
-    doc.text("Por favor concurrir 10 minutos antes con DNI para confirmar turno", 20, 130);
+    doc.setTextColor(100);
+    doc.text("Por favor, concurrir 15 minutos antes del horario indicado.", 105, 280, null, null, "center");
 
-    //Guarda el PDF y descarga automática
-    doc.save(`turno_${turno.id}.pdf`);
+    doc.save(`Turno_${turno.patientName}_${turno.date}.pdf`);
   };
 
   return (
-    <div className="ticket-wrapper">
-      <div className="ticket-card">
-        <h2 style={{ color: '#27ae60' }}>¡Turno Confirmado!</h2>
+    <div className="ticket-overlay fade-in">
+      <div className="ticket-card-modern">
         
-        {/* Resumen visual en pantalla */}
-        <div style={{ textAlign: 'left', margin: '1.5rem 0', lineHeight: '1.6' }}>
-            <p><strong>Paciente:</strong> {turno.patientName}</p>
-            <p><strong>DNI:</strong> {turno.patientDNI}</p>
-            <hr style={{ border: '0', borderTop: '1px dashed #ccc' }}/>
-            <p><strong>Médico:</strong> {turno.doctorName}</p>
-            <p><strong>Especialidad:</strong> {turno.doctorSpec}</p>
+        {/* Encabezado con Icono Animado */}
+        <div className="ticket-header-success">
+            <div className="success-checkmark">
+                <div className="check-icon">
+                    <span className="icon-line line-tip"></span>
+                    <span className="icon-line line-long"></span>
+                    <div className="icon-circle"></div>
+                    <div className="icon-fix"></div>
+                </div>
+            </div>
+            <h2>¡Turno Reservado!</h2>
+            <p>La operación se realizó con éxito</p>
+        </div>
+
+        {/* Cuerpo del Ticket */}
+        <div className="ticket-body">
+            <div className="ticket-row">
+                <span className="label">Paciente:</span>
+                <span className="value">{turno.patientName}</span>
+            </div>
+            <div className="ticket-row">
+                <span className="label">DNI:</span>
+                <span className="value">{turno.patientDNI}</span>
+            </div>
             
-            {/* Tarjeta destacada para la ubicación */}
-            <div style={{ background: '#fcf3cf', padding: '10px', borderRadius: '5px', margin: '10px 0', borderLeft: '4px solid #f1c40f' }}>
-                <strong>Lugar de atención:</strong><br/>
-                {turno.doctorLocation || "Piso y Consultorio a confirmar"}
+            <div className="ticket-divider"></div>
+
+            <div className="ticket-row">
+                <span className="label">Especialista:</span>
+                <span className="value highlight">{turno.doctorName}</span>
+            </div>
+            <div className="ticket-row">
+                <span className="label">Área:</span>
+                <span className="value">{turno.doctorSpec}</span>
             </div>
 
-            <p><strong>Fecha:</strong> {turno.date}</p>
-            <p><strong>Hora:</strong> {turno.time} hs</p>
+            <div className="ticket-location-box">
+                <span className="loc-icon">📍</span>
+                <div className="loc-text">
+                    <span className="loc-label">Ubicación:</span>
+                    <span className="loc-value">{turno.doctorLocation}</span>
+                </div>
+            </div>
+
+            <div className="ticket-row time-row">
+                <div className="time-box">
+                    <span className="time-label">Fecha</span>
+                    <span className="time-value">{turno.date}</span>
+                </div>
+                <div className="time-box">
+                    <span className="time-label">Hora</span>
+                    <span className="time-value">{turno.time} hs</span>
+                </div>
+            </div>
         </div>
-        
-        {/* Botones de acción */}
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-            <button onClick={generatePDF} className="btn-primary" style={{ backgroundColor: '#e74c3c' }}>
-                Descargar PDF
+
+        {/* Botones */}
+        <div className="ticket-footer">
+            <button onClick={generatePDF} className="btn-download">
+                📥 Descargar PDF
             </button>
-            {/* Llama a la función onReset pasada por props para limpiar el estado en Dashboard */}
-            <button onClick={onReset} className="btn-primary" style={{ backgroundColor: '#95a5a6' }}>
-                Volver
+            <button onClick={onReset} className="btn-back">
+                Volver al Inicio
             </button>
         </div>
+
       </div>
     </div>
   );

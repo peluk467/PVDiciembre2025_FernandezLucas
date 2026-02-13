@@ -6,7 +6,8 @@ import '../css/Dashboard.css';
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const { doctors, bookAppointment, toggleDoctorStatus } = useData();
+  // Traemos appointments y cancelAppointment del contexto
+  const { doctors, bookAppointment, toggleDoctorStatus, appointments, cancelAppointment } = useData();
 
   // Estados para el Paciente
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,6 +15,13 @@ export default function Dashboard() {
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
   // --- LÓGICA PACIENTE ---
+
+  // 1. Filtrar los turnos que pertenecen al usuario logueado
+  const myAppointments = user.role === 'paciente' 
+    ? appointments.filter(app => app.patientEmail === user.email)
+    : [];
+
+  // 2. Filtrar médicos para el buscador
   const filteredDoctors = doctors.filter(doc =>
     doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     doc.specialty.toLowerCase().includes(searchTerm.toLowerCase())
@@ -24,6 +32,12 @@ export default function Dashboard() {
     const ticket = bookAppointment(user, selectedDoc, time);
     setBookingSuccess(ticket);
     setSelectedDoc(null); // Cierra el modal
+  };
+
+  const handleCancel = (id) => {
+    if(window.confirm("¿Estás seguro de que deseas cancelar este turno?")) {
+        cancelAppointment(id);
+    }
   };
 
   const resetBooking = () => {
@@ -49,59 +63,100 @@ export default function Dashboard() {
       {/* ================= VISTA PACIENTE ================= */}
       {user.role === 'paciente' && (
         <>
-          {/* Si ya reservó, mostramos el Ticket */}
+          {/* Si ya reservó y tiene el ticket en pantalla */}
           {bookingSuccess ? (
             <TurnoTicket turno={bookingSuccess} onReset={resetBooking} />
           ) : (
             <div className="patient-panel">
               <header className="panel-header">
-                <h1>Reserva de Turnos</h1>
-                <p>Busca un especialista y selecciona el horario de tu preferencia.</p>
+                <h1>Panel del Paciente</h1>
+                <p>Bienvenido, {user.name}</p>
               </header>
 
-              {/* Buscador */}
-              <div className="search-bar-container">
-                <input 
-                  type="text" 
-                  placeholder="🔍 Buscar por médico o especialidad..." 
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="search-input"
-                />
-              </div>
-
-              {/* Lista de Médicos (Grid) */}
-              <div className="doctors-grid">
-                {filteredDoctors.map(doc => (
-                  <div key={doc.id} className="doctor-card">
-                    <div className="doc-info">
-                      <h3>{doc.name}</h3>
-                      <span className="doc-spec">{doc.specialty}</span>
-                      
-                      {/* Estado del médico */}
-                      {doc.status === 'license' ? (
-                        <span className="status-badge license">De Licencia</span>
-                      ) : (
-                        <span className="status-badge available">Disponible</span>
-                      )}
+              {/* --- SECCIÓN: MIS TURNOS RESERVADOS --- */}
+              {myAppointments.length > 0 ? (
+                <div className="my-appointments-section">
+                    <h2 className="section-title">📅 Mis Turnos Confirmados</h2>
+                    <div className="appointments-grid-patient">
+                        {myAppointments.map(app => (
+                            <div key={app.id} className="appointment-card-blue">
+                                <div className="app-details">
+                                    <strong className="app-spec">{app.doctorSpec}</strong>
+                                    <p className="app-doc-name">{app.doctorName}</p>
+                                    <div className="app-time-box">
+                                        <span>🕒 {app.time} hs</span>
+                                        <span>📅 {app.date}</span>
+                                    </div>
+                                    <small className="app-location">📍 {app.doctorLocation}</small>
+                                </div>
+                                <button 
+                                    className="btn-cancel-red"
+                                    onClick={() => handleCancel(app.id)}
+                                    title="Cancelar turno"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        ))}
                     </div>
+                    <hr className="divider"/>
+                </div>
+              ) : (
+                // Mensaje opcional si no tiene turnos
+                <div style={{textAlign: 'center', marginBottom: '2rem', color: '#777'}}>
+                    <p>No tienes turnos reservados actualmente.</p>
+                </div>
+              )}
+              {/* ----------------------------------------- */}
 
-                    <button 
-                      className="btn-primary"
-                      disabled={doc.status === 'license'}
-                      onClick={() => setSelectedDoc(doc)}
-                    >
-                      {doc.status === 'license' ? 'No disponible' : 'Ver Turnos'}
-                    </button>
+              {/* --- SECCIÓN: RESERVAR NUEVO TURNO --- */}
+              <div className="booking-section">
+                  <h2 className="section-title">🔍 Reservar Nuevo Turno</h2>
+                  
+                  {/* Buscador */}
+                  <div className="search-bar-container">
+                    <input 
+                      type="text" 
+                      placeholder="Buscar por médico o especialidad..." 
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="search-input"
+                    />
                   </div>
-                ))}
 
-                {filteredDoctors.length === 0 && (
-                  <p className="no-results">No se encontraron médicos.</p>
-                )}
+                  {/* Lista de Médicos (Grid) */}
+                  <div className="doctors-grid">
+                    {filteredDoctors.map(doc => (
+                      <div key={doc.id} className="doctor-card">
+                        <div className="doc-info">
+                          <h3>{doc.name}</h3>
+                          <span className="doc-spec">{doc.specialty}</span>
+                          
+                          {/* Estado del médico */}
+                          {doc.status === 'license' ? (
+                            <span className="status-badge license">De Licencia</span>
+                          ) : (
+                            <span className="status-badge available">Disponible</span>
+                          )}
+                        </div>
+
+                        <button 
+                          className="btn-primary"
+                          disabled={doc.status === 'license'}
+                          onClick={() => setSelectedDoc(doc)}
+                        >
+                          {doc.status === 'license' ? 'No disponible' : 'Ver Turnos'}
+                        </button>
+                      </div>
+                    ))}
+
+                    {filteredDoctors.length === 0 && (
+                      <p className="no-results">No se encontraron médicos.</p>
+                    )}
+                  </div>
               </div>
 
-              {/* === MODAL DE HORARIOS (ENCIMADO) === */}
+              {/* === MODAL DE HORARIOS === */}
               {selectedDoc && (
                 <div className="modal-overlay" onClick={() => setSelectedDoc(null)}>
                   <div className="modal-content" onClick={(e) => e.stopPropagation()}>

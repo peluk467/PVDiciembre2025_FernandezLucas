@@ -19,9 +19,17 @@ export default function Register() {
     role: 'paciente',
     legajo: '',
     especialidad: '',
-    piso: '',        // <--- Nuevo estado
-    consultorio: ''  // <--- Nuevo estado
+    piso: '',        
+    consultorio: ''  
   });
+
+  // --- NUEVA LÓGICA: Filtro para evitar números en Nombre y Apellido ---
+  const handleNameChange = (e) => {
+    // Reemplaza cualquier dígito (0-9) por un espacio vacío en tiempo real
+    e.target.value = e.target.value.replace(/[0-9]/g, '');
+    // Llama al manejador original para actualizar el estado
+    handleInputChange(e);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,8 +63,8 @@ export default function Register() {
         addDoctor({
             name: userData.name,
             specialty: formValues.especialidad,
-            floor: formValues.piso,         // Enviamos al context
-            office: formValues.consultorio  // Enviamos al context
+            floor: formValues.piso,         
+            office: formValues.consultorio  
         });
       }
       alert('¡Registro exitoso! Bienvenido al sistema.');
@@ -75,11 +83,25 @@ export default function Register() {
           <div style={{ display: 'flex', gap: '10px' }}>
             <div className="form-group" style={{ flex: 1 }}>
                 <label>Nombre/s:</label>
-                <input type="text" name="nombre" required value={formValues.nombre} onChange={handleInputChange} />
+                {/* Aplicamos el handleNameChange en lugar del original */}
+                <input 
+                  type="text" 
+                  name="nombre" 
+                  required 
+                  value={formValues.nombre} 
+                  onChange={handleNameChange} 
+                />
             </div>
             <div className="form-group" style={{ flex: 1 }}>
                 <label>Apellido/s:</label>
-                <input type="text" name="apellido" required value={formValues.apellido} onChange={handleInputChange} />
+                {/* Aplicamos el handleNameChange en lugar del original */}
+                <input 
+                  type="text" 
+                  name="apellido" 
+                  required 
+                  value={formValues.apellido} 
+                  onChange={handleNameChange} 
+                />
             </div>
           </div>
 
@@ -128,7 +150,6 @@ export default function Register() {
                     </select>
                 </div>
 
-                {/* NUEVOS CAMPOS: PISO Y CONSULTORIO */}
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <div className="form-group" style={{ flex: 1 }}>
                         <label>Piso:</label>

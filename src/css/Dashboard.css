@@ -1,8 +1,12 @@
+/* =========================================
+   ESTILOS GENERALES DEL DASHBOARD
+   ========================================= */
 .dashboard-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 80vh;
+  margin-top: 80px; /* Para que no lo tape el navbar fijo */
 }
 
 /* Animación de entrada */
@@ -22,13 +26,143 @@
 .panel-header h1 {
   color: #2c3e50;
   font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
+.panel-header p {
+  color: #7f8c8d;
+}
+
+.section-title {
+  color: #34495e;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 5px solid #3498db;
+  padding-left: 15px;
+  margin-top: 2rem;
+}
+
+/* =========================================
+   SECCIÓN: MIS TURNOS CONFIRMADOS (PACIENTE)
+   ========================================= */
+
+.my-appointments-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 3rem;
+}
+
+.appointments-grid-patient {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 1rem;
+}
+
+/* TARJETA CELESTE DE TURNO */
+.appointment-card-blue {
+    background-color: #e3f2fd !important; /* Forzamos el color celeste */
+    border: 1px solid #90caf9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+.appointment-card-blue:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(33, 150, 243, 0.2);
+    border-color: #2196f3;
+}
+
+.app-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.app-spec {
+    color: #1565c0; 
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+}
+
+.app-doc-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 5px 0;
+    color: #2c3e50;
+}
+
+.app-time-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-weight: 600;
+    color: #444;
+    margin: 8px 0;
+    background: rgba(255,255,255,0.5);
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.app-location {
+    color: #555;
+    font-style: italic;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* BOTÓN ROJO DE CANCELAR */
+.btn-cancel-red {
+    background-color: #e74c3c !important; /* Forzamos el rojo */
+    color: white !important;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-left: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    white-space: nowrap; /* Que no se rompa el texto */
+}
+
+.btn-cancel-red:hover {
+    background-color: #c0392b !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #e0e0e0;
+    margin-top: 2rem;
+}
+
+/* =========================================
+   SECCIÓN: RESERVAR TURNO (BUSCADOR Y MÉDICOS)
+   ========================================= */
 
 /* Buscador */
 .search-bar-container {
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 .search-input {
   width: 100%;
@@ -38,10 +172,10 @@
   border-radius: 30px;
   font-size: 1rem;
   transition: all 0.3s;
+  outline: none;
 }
 .search-input:focus {
   border-color: #3498db;
-  outline: none;
   box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
 }
 
@@ -71,10 +205,11 @@
 .doc-info h3 {
   margin: 0 0 5px 0;
   color: #34495e;
+  font-size: 1.2rem;
 }
 .doc-spec {
   color: #7f8c8d;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   display: block;
   margin-bottom: 10px;
 }
@@ -85,18 +220,50 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: bold;
+  display: inline-block;
+  margin-top: 5px;
 }
 .status-badge.available {
   background-color: #e8f8f5;
   color: #27ae60;
+  border: 1px solid #d4efdf;
 }
 .status-badge.license {
   background-color: #fdedec;
   color: #c0392b;
+  border: 1px solid #fadbd8;
+}
+
+/* Botón "Ver Turnos" */
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+.btn-primary:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.no-results {
+    text-align: center;
+    grid-column: 1 / -1;
+    color: #777;
+    margin-top: 2rem;
 }
 
 /* =========================================
-   ESTILOS NUEVOS PARA EL MODAL (POPUP)
+   MODAL DE HORARIOS (POPUP)
    ========================================= */
 
 .modal-overlay {
@@ -105,12 +272,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 900; /* Menor que BackButton (que suele ser muy alto) */
-  backdrop-filter: blur(2px); /* Efecto borroso de fondo */
+  z-index: 2000;
+  backdrop-filter: blur(3px);
 }
 
 .modal-content {
@@ -134,7 +301,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
 
 .modal-header h2 {
@@ -160,106 +329,411 @@
 }
 
 .modal-doc-name {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  margin-bottom: 0.2rem;
+  color: #2c3e50;
+  margin: 0;
 }
 .modal-doc-spec {
-  color: #7f8c8d;
-  margin-bottom: 0.5rem;
+  color: #3498db;
+  font-weight: 600;
+  margin: 5px 0 15px 0;
 }
 .modal-doc-loc {
   background: #f4f6f7;
   display: inline-block;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  color: #2c3e50;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  color: #555;
   margin-bottom: 1.5rem;
+  border: 1px solid #e0e0e0;
 }
 
 /* Grilla de horarios dentro del modal */
 .slots-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 10px;
+  gap: 12px;
   margin-top: 1rem;
 }
 
 .slot-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
+  background-color: white;
+  color: #3498db;
+  border: 2px solid #3498db;
   padding: 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  font-weight: 500;
+  transition: all 0.2s;
+  font-weight: 600;
 }
 .slot-btn:hover {
-  background-color: #2980b9;
+  background-color: #3498db;
+  color: white;
   transform: scale(1.05);
 }
 
 .no-slots {
   color: #e74c3c;
   font-weight: bold;
+  margin-top: 20px;
 }
 
-/* Vista Medico */
+/* =========================================
+   VISTA MÉDICO
+   ========================================= */
+.doctor-panel {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .doctor-status-card {
   background: white;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 10px;
   text-align: center;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
 }
 .status-indicator {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  margin: 1rem 0;
-  padding: 10px;
-  border-radius: 5px;
+  margin: 1.5rem 0;
+  padding: 15px;
+  border-radius: 8px;
+  display: inline-block;
+  width: 100%;
 }
 .status-indicator.available { background: #d4efdf; color: #1e8449; }
 .status-indicator.license { background: #fadbd8; color: #c0392b; }
 
+.status-desc {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
 .btn-status {
-  margin-top: 1rem;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+.btn-status:hover {
+    transform: scale(1.05);
 }
 .btn-license { background: #e74c3c; color: white; }
 .btn-available { background: #27ae60; color: white; }
 
-.appointments-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 1rem;
+.my-slots-section h3 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    color: #34495e;
 }
 
-.appointment-mini-card {
-    background: #f8f9fa;
-    border: 1px solid #eee;
-    padding: 15px;
-    border-radius: 8px;
+.slots-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.slot-tag {
+    background: #ecf0f1;
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* ==============================================
+   DISEÑO DEL TICKET DE CONFIRMACIÓN (TurnoTicket)
+   ============================================== */
+
+.ticket-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(44, 62, 80, 0.85); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2500;
+    backdrop-filter: blur(4px);
+}
+
+.ticket-card-modern {
+    background: #ffffff;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    overflow: hidden;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.ticket-header-success {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    padding: 2rem 1rem 1.5rem 1rem;
+    text-align: center;
+    color: white;
+    border-bottom-left-radius: 50% 20px;
+    border-bottom-right-radius: 50% 20px;
+}
+
+.ticket-header-success h2 {
+    margin: 10px 0 5px 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.ticket-header-success p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.ticket-body {
+    padding: 1.5rem 2rem;
+}
+
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.ticket-row .label {
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.ticket-row .value {
+    color: #2c3e50;
+    font-weight: 700;
+    text-align: right;
+}
+
+.ticket-row .value.highlight {
+    color: #2980b9;
+}
+
+.ticket-divider {
+    height: 1px;
+    background-image: linear-gradient(to right, #ccc 50%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+    margin: 15px 0;
+}
+
+.ticket-location-box {
+    background-color: #f4f6f7;
+    border-left: 4px solid #f1c40f;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.loc-icon {
+    font-size: 1.5rem;
+}
+
+.loc-text {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
-.status-badge-mini {
-    background: #e74c3c;
+.loc-label {
+    font-size: 0.7rem;
+    color: #7f8c8d;
+    text-transform: uppercase;
+}
+
+.loc-value {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.time-row {
+    margin-top: 10px;
+    background-color: #eafaf1;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48%;
+}
+
+.time-label {
+    font-size: 0.75rem;
+    color: #27ae60;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.time-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2c3e50;
+}
+
+.ticket-footer {
+    padding: 0 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-download {
+    background-color: #34495e;
     color: white;
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 10px;
-    margin-left: 10px;
-    vertical-align: middle;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 1rem;
+}
+
+.btn-download:hover {
+    background-color: #2c3e50;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-back {
+    background-color: transparent;
+    color: #7f8c8d;
+    border: 1px solid #bdc3c7;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-back:hover {
+    background-color: #ecf0f1;
+    color: #333;
+}
+
+/* Animación del Check Verde */
+.success-checkmark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px auto;
+    position: relative;
+}
+
+.check-icon {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    border-radius: 50%;
+    box-sizing: content-box;
+    border: 4px solid rgba(255, 255, 255, 0.5);
+}
+
+.check-icon::before {
+    top: 3px;
+    left: -2px;
+    width: 30px;
+    transform-origin: 100% 50%;
+    border-radius: 100px 0 0 100px;
+}
+
+.check-icon::after {
+    top: 0;
+    left: 30px;
+    width: 60px;
+    transform-origin: 0 50%;
+    border-radius: 0 100px 100px 0;
+    animation: rotate-circle 4.25s ease-in;
+}
+
+.icon-line {
+    height: 5px;
+    background-color: #fff;
+    display: block;
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+}
+
+.icon-line.line-tip {
+    top: 46px;
+    left: 14px;
+    width: 25px;
+    transform: rotate(45deg);
+    animation: icon-line-tip 0.75s;
+}
+
+.icon-line.line-long {
+    top: 38px;
+    right: 8px;
+    width: 47px;
+    transform: rotate(-45deg);
+    animation: icon-line-long 0.75s;
+}
+
+.icon-circle {
+    top: -4px;
+    left: -4px;
+    z-index: 10;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    box-sizing: content-box;
+    border: 4px solid rgba(255, 255, 255, 0.8);
+}
+
+.icon-fix {
+    top: 8px;
+    width: 5px;
+    left: 26px;
+    z-index: 1;
+    height: 85px;
+    position: absolute;
+    transform: rotate(-45deg);
+    background-color: transparent;
+}
+
+@keyframes icon-line-tip {
+    0% { width: 0; left: 1px; top: 19px; }
+    54% { width: 0; left: 1px; top: 19px; }
+    70% { width: 50px; left: -8px; top: 37px; }
+    84% { width: 17px; left: 21px; top: 48px; }
+    100% { width: 25px; left: 14px; top: 46px; }
+}
+
+@keyframes icon-line-long {
+    0% { width: 0; right: 46px; top: 54px; }
+    65% { width: 0; right: 46px; top: 54px; }
+    84% { width: 55px; right: 0px; top: 35px; }
+    100% { width: 47px; right: 8px; top: 38px; }
 }
